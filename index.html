@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دخول الشات | سيد العواطف</title>
+    <style>
+        body { background: #000; color: #FFD700; font-family: sans-serif; text-align: center; margin: 0; padding: 0; }
+        .box { margin: 40px auto; width: 90%; max-width: 400px; padding: 25px; border-radius: 20px; box-shadow: 0 0 20px gold; background: #0a0a0a; }
+        h2 { margin-bottom: 20px; animation: glow 2s ease-in-out infinite alternate; text-shadow: 0 0 5px gold, 0 0 10px orange, 0 0 20px red; font-size: 22px; }
+        @keyframes glow { 0% { text-shadow: 0 0 5px gold; } 100% { text-shadow: 0 0 20px red; } }
+        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid gold; background: #111; color: #fff; outline: none; }
+        button { width: 94%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .reg { background: gold; color: black; font-size: 16px; }
+        .reg:hover { background: #ffcc00; transform: scale(1.02); }
+        .guest { background: #222; color: gold; border: 1px solid gold; }
+        .forgot-btn { background: transparent; color: #FFD700; font-size: 13px; text-decoration: underline; cursor: pointer; border: none; margin-top: 5px; }
+        hr { border: 0; border-top: 1px solid #333; margin: 20px 0; }
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; color: gold; justify-content: center; align-items: center; flex-direction: column; }
+    </style>
+</head>
+<body>
+
+<div id="loader" class="loading-overlay"> جاري التحقق من البيانات... </div>
+
+<div class="box">
+    <h2>🔥 أهلاً وسهلاً بكم في شات جوال <br>👑 سيد العواطف</h2>
+
+    <input id="name" placeholder="الاسم (للتسجيل الجديد فقط)">
+    <input id="email" placeholder="البريد الإلكتروني">
+    <input id="pass" type="password" placeholder="كلمة السر">
+
+    <button class="reg" onclick="handleAuth()">تسجيل / دخول</button>
+    <button class="forgot-btn" onclick="forgotPassword()">نسيت كلمة المرور؟</button>
+
+    <hr>
+
+    <input id="guestName" placeholder="اسم الزائر">
+    <button class="guest" onclick="guestLogin()">دخول سريع كزائر</button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyAV57SZcwoMoHT4iEBbyd9hsuCokjEwmb4",
+    authDomain: "anwar-chat.firebaseapp.com",
+    databaseURL: "https://anwar-chat-default-rtdb.firebaseio.com",
+    projectId: "anwar-chat",
+    storageBucket: "anwar-chat.firebasestorage.app",
+    messagingSenderId: "1080145984962",
+    appId: "1:1080145984962:web:1ee0e18720232dc705ea5b"
+};
+
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.database();
+
+const defaultImg = "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media&token=156bb233-e78a-41c9-9b26-83781d761487";
+
+// --- [إضافة: مراقب الدخول التلقائي] ---
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        // إذا كان هناك جلسة دخول سابقة، جلب البيانات ثم الانتقال
+        document.getElementById("loader").style.display = "flex";
+        db.ref("users/" + user.uid).once("value").then((snap) => {
+            let data = snap.val();
+            if (data) {
+                secureGo(data, user.uid, "member");
+            }
+        });
+    }
+});
+
+function secureGo(userData, uid, type) {
+    // نحفظ البيانات لكي تتعرف عليها صفحة chat.html فوراً
+    localStorage.setItem("uid", uid);
+    localStorage.setItem("name", userData.username || userData.name || "عضو");
+    localStorage.setItem("role", userData.role || "user");
+    localStorage.setItem("type", type); 
+    localStorage.setItem("userImg", userData.image || defaultImg);
+    
+    // حفظ الإضافات الجديدة لضمان عدم تعليق الإطارات
+    if(userData.frame) localStorage.setItem("userFrame", userData.frame);
+    if(userData.color) localStorage.setItem("userColor", userData.color);
+    if(userData.tColor) localStorage.setItem("tColor", userData.tColor);
+    
+    window.location.href = "chat.html";
+}
+
+async function handleAuth() {
+    let nameInput = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let pass = document.getElementById("pass").value.trim();
+
+    if (!email || !pass) return alert("⚠️ أدخل البريد وكلمة السر");
+    
+    document.getElementById("loader").style.display = "flex";
+
+    try {
+        const res = await auth.signInWithEmailAndPassword(email, pass);
+        const snap = await db.ref("users/" + res.user.uid).once("value");
+        let data = snap.val();
+        
+        if (data) {
+            secureGo(data, res.user.uid, "member");
+        } else {
+            let newData = { 
+                username: nameInput || "عضو جديد", 
+                role: "user", 
+                image: defaultImg 
+            };
+            await db.ref("users/" + res.user.uid).set(newData);
+            secureGo(newData, res.user.uid, "member");
+        }
+    } catch (error) {
+        if (error.code === "auth/user-not-found") {
+            if (!nameInput) {
+                document.getElementById("loader").style.display = "none";
+                return alert("⚠️ يرجى كتابة الاسم للتسجيل لأول مرة");
+            }
+            auth.createUserWithEmailAndPassword(email, pass).then(async (res) => {
+                let newData = { 
+                    username: nameInput, 
+                    role: "user", 
+                    image: defaultImg 
+                };
+                await db.ref("users/" + res.user.uid).set(newData);
+                secureGo(newData, res.user.uid, "member");
+            }).catch(e => {
+                document.getElementById("loader").style.display = "none";
+                alert(e.message);
+            });
+        } else {
+            document.getElementById("loader").style.display = "none";
+            alert("❌ خطأ: " + error.message);
+        }
+    }
+}
+
+function guestLogin() {
+    let g = document.getElementById("guestName").value.trim();
+    if (!g) return alert("⚠️ يرجى إدخال اسم الزائر");
+
+    document.getElementById("loader").style.display = "flex";
+    let guestId = "guest_" + Date.now();
+    let guestData = {
+        username: "زائر: " + g,
+        role: "guest",
+        image: defaultImg
+    };
+
+    db.ref("users/" + guestId).set(guestData).then(() => {
+        secureGo(guestData, guestId, "guest");
+    }).catch(e => {
+        document.getElementById("loader").style.display = "none";
+        alert(e.message);
+    });
+}
+
+function forgotPassword() {
+    let email = document.getElementById("email").value.trim();
+    if (!email) return alert("⚠️ اكتب البريد الإلكتروني أولاً");
+    auth.sendPasswordResetEmail(email)
+        .then(() => alert("✅ تم إرسال رابط التغيير لبريدك"))
+        .catch(e => alert(e.message));
+}
+</script>
+</body>
+</html>

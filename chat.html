@@ -1,0 +1,2908 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شات عرب جوال</title>
+
+<style>
+body{margin:0;background:#1e1e1e;color:#fff;font-family:sans-serif}
+
+/* 🔴 TOP */
+.top{background:#c40000;display:flex;justify-content:center;padding:8px;position:sticky;top:0;z-index:1000;}
+.topBox{background:#a00000;width:95%;border-radius:15px;display:flex;justify-content:space-between;align-items:center;padding:8px;font-size:11px;}
+.topBtns{display:flex;gap:10px;}
+.topBtns div{text-align:center;cursor:pointer;}
+
+/* 💬 */
+.chat{height:calc(100vh - 170px);overflow-y:auto;padding:10px;padding-bottom:120px;}
+.msg{margin:6px 0;}
+.msgHead{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
+
+.avatarBox{position:relative;width:32px;height:32px;}
+.avatarImg{width:32px;height:32px;border-radius:50%;}
+.frameImg{position:absolute;top:-10px;left:-10px;width:52px;height:52px;pointer-events:none;}
+
+.name{
+  font-size:10px;
+  color:gold;
+  font-weight:bold;
+}
+.shine {
+  background: linear-gradient(90deg, gold, white, gold);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shineMove 2s linear infinite;
+}
+
+@keyframes shineMove {
+  0% {background-position: 200%;}
+  100% {background-position: -200%;}
+}
+.rank{font-size:11px;margin-right:5px;}
+.text{background:#2b2b2b;padding:6px 10px;border-radius:15px;font-size:13px;display:inline-block;max-width:75%;}
+.time{font-size:9px;color:#aaa;margin-top:2px;}
+
+/* ✍️ */
+.input{position:fixed;bottom:60px;width:100%;display:flex;background:#111;padding:8px;}
+.input input{flex:1;padding:10px;border-radius:25px;border:none;}
+.btn{background:gold;border:none;padding:10px;border-radius:50%;margin-left:5px;}
+
+/* 🔻 */
+.bottom{position:fixed;bottom:0;width:100%;height:60px;background:#c40000;display:flex;justify-content:space-around;align-items:center;font-size:12px;}
+
+/* 🏠 rooms */
+.rooms{
+position:fixed;
+top:0;
+width:100%;
+height:100%;
+background:#111;
+display:flex;
+flex-direction:column;
+z-index:9999;
+}
+
+.marquee{
+background:#c40000;
+color:#fff;
+height:25px;
+display:flex;
+align-items:center;
+overflow:hidden;
+font-size:10px;
+border-bottom:1px solid gold;
+padding:0 10px;
+}
+
+.marquee span{
+white-space:nowrap;
+animation:move 10s linear infinite;
+}
+
+@keyframes move{
+0%{transform:translateX(100%);}
+100%{transform:translateX(-100%);}
+}
+
+.roomsList{
+flex:1;
+overflow-y:auto;
+padding-bottom:20px;
+}
+
+.room{
+width:85%;
+padding:15px;
+margin:5px auto;
+background:#2b2b2b;
+border:1px solid gold;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+cursor:pointer;
+}
+
+.roomName{color:gold;}
+.count{font-size:12px;color:#0f0;}
+
+/* تجميل حقول التعديل */
+.field {
+    background: #222;
+    padding: 10px;
+    margin: 5px 10px;
+    border-radius: 10px;
+    border-right: 4px solid gold;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.3s;
+}
+.field:hover { background: #333; }
+/* تأثير الحركة الأساسي */
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+/* التنسيق المشترك لجميع الألوان المتحركة */
+.c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8, .c9, .c10, 
+.c11, .c12, .c13, .c14, .c15, .c16, .c17, .c18, .c19, .c20 {
+    font-weight: bold;
+    display: inline-block;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: shine 3s linear infinite;
+}
+
+/* --- قائمة الـ 20 لوناً المميزة --- */
+
+.c1 { background-image: linear-gradient(90deg, #ffd700, #fff, #ffd700); } /* الذهب الملكي */
+.c2 { background-image: linear-gradient(90deg, #ff4b2b, #ff416c, #ff4b2b); } /* لهب النار */
+.c3 { background-image: linear-gradient(90deg, #00c6ff, #0072ff, #00c6ff); } /* البرق الأزرق */
+.c4 { background-image: linear-gradient(90deg, #8e2de2, #4a00e0, #8e2de2); } /* بنفسجي ملكي */
+.c5 { background-image: linear-gradient(90deg, #00f260, #0575e6, #00f260); } /* الغابة السحرية */
+.c6 { background-image: linear-gradient(90deg, #f7971e, #ffd200, #f7971e); } /* شروق الشمس */
+.c7 { background-image: linear-gradient(90deg, #ff00cc, #3333ff, #ff00cc); } /* نيون صاخب */
+.c8 { background-image: linear-gradient(90deg, #000000, #434343, #000000); } /* الأسود الفاخر */
+.c9 { background-image: linear-gradient(90deg, #eecda3, #ef629f, #eecda3); } /* غروب وردي */
+.c10 { background-image: linear-gradient(90deg, #1d976c, #93f9b9, #1d976c); } /* زمردي */
+.c11 { background-image: linear-gradient(90deg, #eb3349, #f45c43, #eb3349); } /* كرزي متحرك */
+.c12 { background-image: linear-gradient(90deg, #4ca1af, #c4e0e5, #4ca1af); } /* ثلجي هادئ */
+.c13 { background-image: linear-gradient(90deg, #ff5f6d, #ffc371, #ff5f6d); } /* حلاوة قطنية */
+.c14 { background-image: linear-gradient(90deg, #36d1dc, #5b86e5, #36d1dc); } /* كريستال */
+.c15 { background-image: linear-gradient(90deg, #673ab7, #512da8, #673ab7); } /* لافندر عميق */
+.c16 { background-image: linear-gradient(90deg, #11998e, #38ef7d, #11998e); } /* أخضر مشع */
+.c17 { background-image: linear-gradient(90deg, #ff9966, #ff5e62, #ff9966); } /* برتقالي دافئ */
+.c18 { background-image: linear-gradient(90deg, #4568dc, #b06ab3, #4568dc); } /* كوني (Galaxy) */
+.c19 { background-image: linear-gradient(90deg, #000428, #004e92, #000428); } /* ليل داكن */
+.c20 { background-image: linear-gradient(90deg, #83a4d4, #b6fbff, #83a4d4); } /* سحابي */
+
+/* تنسيق دوائر الاختيار في القائمة */
+.color-option {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #444;
+    transition: 0.2s;
+    background-size: cover; /* لكي تظهر الألوان داخل الدوائر */
+}
+.color-option:hover { transform: scale(1.2); border-color: #fff; }
+/* --- تأثيرات الحركة الأساسية --- */
+@keyframes shineEffect {
+    to { background-position: 200% center; }
+}
+ /* --- الحركات الكبرى (تأكد من وجودها) --- */
+@keyframes rotate-aura { 0% { filter: hue-rotate(0deg) brightness(1); } 100% { filter: hue-rotate(360deg) brightness(1.2); } }
+@keyframes star-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+/* التنسيق المشترك لـ 50 لون (الجيل الجديد) */
+.g1, .g2, .g3, .g4, .g5, .g6, .g7, .g8, .g9, .g10,
+.g11, .g12, .g13, .g14, .g15, .g16, .g17, .g18, .g19, .g20,
+.g21, .g22, .g23, .g24, .g25, .g26, .g27, .g28, .g29, .g30,
+.g31, .g32, .g33, .g34, .g35, .g36, .g37, .g38, .g39, .g40,
+.g41, .g42, .g43, .g44, .g45, .g46, .g47, .g48, .g49, .g50 {
+    font-weight: bold;
+    color: #fff !important; /* النص دائماً أبيض */
+    text-shadow: 2px 2px 4px #000; /* ظل خلف النص لزيادة الوضوح */
+    padding: 3px 10px;
+    border-radius: 12px;
+    display: inline-block;
+    position: relative;
+    background-size: 200% 200%;
+}
+
+/* --- قائمة الـ 50 لون الخرافية --- */
+
+/* 1. نار مشتعلة حقيقية (تلتف حول الاسم) */
+.g1 { background: url('https://media.giphy.com/media/l0IykOsxDZ2jdGVZ6/giphy.gif'); background-size: cover; box-shadow: 0 0 15px #ff4500; animation: shakeEffect 0.2s infinite; }
+
+/* 2. نجوم الفضاء المتحركة */
+.g2 { background: url('https://media.giphy.com/media/uS071hlk6ScrS/giphy.gif'); box-shadow: 0 0 15px #fff; animation: star-move 3s linear infinite; }
+
+/* 3. قوس قزح دوار (يلتف حول الاسم) */
+.g3 { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); animation: rotate-aura 2s linear infinite; box-shadow: 0 0 10px #fff; }
+
+/* 4. صاعقة البرق الزرقاء */
+.g4 { background: url('https://media.giphy.com/media/3o7TKMGpxf5Z9xF6PC/giphy.gif'); background-size: cover; box-shadow: 0 0 20px #00ffff; }
+
+/* 5. تساقط الثلج السحري */
+.g5 { background: url('https://media.giphy.com/media/l41lTfR8vG1u9rTHy/giphy.gif'); background-size: cover; box-shadow: 0 0 10px #ade8f4; }
+
+/* 6. طاقة الزمرد المشعة */
+.g6 { background: linear-gradient(90deg, #00ff00, #004400, #00ff00); animation: star-move 2s infinite; box-shadow: 0 0 15px #00ff00; }
+
+/* 7. الذهب الخالص (3D) */
+.g7 { background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728); box-shadow: 0 0 10px #ffd700; border: 1px solid #ffd700; }
+
+/* 8. نيون وردي (Pulse) */
+.g8 { background: #ff00ff; box-shadow: 0 0 20px #ff00ff; animation: ghost 1.5s infinite; }
+
+/* 9. دماء متحركة (مرعب) */
+.g9 { background: linear-gradient(180deg, #660000, #ff0000); animation: blood 1s infinite; box-shadow: 0 0 10px #ff0000; }
+
+/* 10. مصفوفة الهكر (Matrix) */
+.g10 { background: url('https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif'); filter: brightness(1.5); box-shadow: 0 0 10px #00ff00; }
+
+/* من 11 إلى 50 (تكرار أنماط متوهجة بألوان مختلفة) */
+.g11 { background: linear-gradient(90deg, #4b0082, #0000ff); box-shadow: 0 0 15px #4b0082; }
+.g12 { background: linear-gradient(90deg, #00c6ff, #0072ff); box-shadow: 0 0 15px #0072ff; }
+.g13 { background: linear-gradient(90deg, #f83600, #f9d423); box-shadow: 0 0 15px #f83600; }
+.g14 { background: linear-gradient(90deg, #96fbc4, #f9f586); box-shadow: 0 0 15px #96fbc4; }
+.g15 { background: linear-gradient(90deg, #6a11cb, #2575fc); box-shadow: 0 0 15px #6a11cb; }
+.g16 { background: linear-gradient(90deg, #ff0844, #ffb199); box-shadow: 0 0 15px #ff0844; }
+.g17 { background: linear-gradient(90deg, #43e97b, #38f9d7); box-shadow: 0 0 15px #43e97b; }
+.g18 { background: linear-gradient(90deg, #fa709a, #fee140); box-shadow: 0 0 15px #fa709a; }
+.g19 { background: linear-gradient(90deg, #30cfd0, #330867); box-shadow: 0 0 15px #30cfd0; }
+.g20 { background: linear-gradient(90deg, #a8ff78, #78ffd6); box-shadow: 0 0 15px #a8ff78; }
+
+/* استمر بنفس النمط حتى g50 مع تغيير الألوان */
+.g21 { background: #e91e63; box-shadow: 0 0 15px #e91e63; }
+.g22 { background: #9c27b0; box-shadow: 0 0 15px #9c27b0; }
+.g23 { background: #673ab7; box-shadow: 0 0 15px #673ab7; }
+.g24 { background: #3f51b5; box-shadow: 0 0 15px #3f51b5; }
+.g25 { background: #2196f3; box-shadow: 0 0 15px #2196f3; }
+.g26 { background: #03a9f4; box-shadow: 0 0 15px #03a9f4; }
+.g27 { background: #00bcd4; box-shadow: 0 0 15px #00bcd4; }
+.g28 { background: #009688; box-shadow: 0 0 15px #009688; }
+.g29 { background: #4caf50; box-shadow: 0 0 15px #4caf50; }
+.g30 { background: #8bc34a; box-shadow: 0 0 15px #8bc34a; }
+.g31 { background: #cddc39; box-shadow: 0 0 15px #cddc39; }
+.g32 { background: #ffeb3b; box-shadow: 0 0 15px #ffeb3b; }
+.g33 { background: #ffc107; box-shadow: 0 0 15px #ffc107; }
+.g34 { background: #ff9800; box-shadow: 0 0 15px #ff9800; }
+.g35 { background: #ff5722; box-shadow: 0 0 15px #ff5722; }
+.g36 { background: #795548; box-shadow: 0 0 15px #795548; }
+.g37 { background: #9e9e9e; box-shadow: 0 0 15px #9e9e9e; }
+.g38 { background: #607d8b; box-shadow: 0 0 15px #607d8b; }
+.g39 { background: #000000; box-shadow: 0 0 15px #ffffff; }
+.g40 { background: #ffffff; box-shadow: 0 0 15px #000000; color: #000 !important; }
+.g41 { background: linear-gradient(45deg, #1d2671, #c33764); box-shadow: 0 0 15px #c33764; }
+.g42 { background: linear-gradient(45deg, #11998e, #38ef7d); box-shadow: 0 0 15px #38ef7d; }
+.g43 { background: linear-gradient(45deg, #ff5f6d, #ffc371); box-shadow: 0 0 15px #ff5f6d; }
+.g44 { background: linear-gradient(45deg, #4568dc, #b06ab3); box-shadow: 0 0 15px #b06ab3; }
+.g45 { background: linear-gradient(45deg, #00b09b, #96c93d); box-shadow: 0 0 15px #00b09b; }
+.g46 { background: linear-gradient(45deg, #f80759, #bc4e9c); box-shadow: 0 0 15px #f80759; }
+.g47 { background: linear-gradient(45deg, #00c6ff, #0072ff); box-shadow: 0 0 15px #00c6ff; }
+.g48 { background: linear-gradient(45deg, #f7971e, #ffd200); box-shadow: 0 0 15px #f7971e; }
+.g49 { background: linear-gradient(45deg, #6a11cb, #2575fc); box-shadow: 0 0 15px #6a11cb; }
+.g50 { background: radial-gradient(circle, #ff0000, #000); animation: star-blink 0.5s infinite; box-shadow: 0 0 20px #ff0000; }
+
+.color-select {
+    background: #333; /* لون خلفية القائمة */
+    color: #fff;      /* لون النص داخل القائمة */
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif; /* إذا كنت تستخدم خطاً عربياً */
+}
+
+.color-select:focus {
+    outline: none;
+    border-color: #ffd700; /* يتغير لون الإطار عند الاختيار */
+}
+
+/* كلاسات ألوان الرسائل الجديدة - تبدأ بحرف m لمنع التضارب */
+.m1 { color: #ffffff !important; }
+.m2 { color: #ffeb3b !important; }
+.m3 { color: #ff9800 !important; }
+.m4 { color: #f44336 !important; }
+.m5 { color: #e91e63 !important; }
+.m6 { color: #9c27b0 !important; }
+.m7 { color: #2196f3 !important; }
+.m8 { color: #00bcd4 !important; }
+.m9 { color: #4caf50 !important; }
+.m10 { color: #ffd700 !important; }
+.m11 { color: #bcaaa4 !important; }
+.m12 { color: #81d4fa !important; }
+.m13 { color: #a5d6a7 !important; }
+.m14 { color: #ffccbc !important; }
+.m15 { color: #eeeeee !important; }
+.m16 { color: #d1c4e9 !important; }
+.m17 { color: #80deea !important; }
+.m18 { color: #fff59d !important; }
+.m19 { color: #ffab91 !important; }
+.m20 { color: #ce93d8 !important; }
+/* تنسيق إعلان بوت الإدارة داخل الشات */
+.admin-announcement {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid gold;
+    border-radius: 15px;
+    padding: 12px;
+    margin: 10px auto;
+    width: 90%;
+    direction: rtl;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.bot-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+    padding-bottom: 5px;
+}
+
+.bot-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid gold;
+}
+
+.bot-badge {
+    background: gold;
+    color: black;
+    font-size: 9px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* حركة قفز الهدية */
+@keyframes giftBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.1); }
+}
+
+/* تنسيق الزر - مخفي افتراضياً */
+#topFloatingBtn {
+    position: fixed; top: 50%; right: 10px; transform: translateY(-50%);
+    width: 45px; height: 45px; background: rgba(5, 5, 5, 0.8);
+    border: 2px solid #ff1493; border-radius: 50%; color: #ff1493;
+    font-weight: bold; font-size: 11px; cursor: pointer; z-index: 2000;
+    display: none; /* لن يظهر إلا إذا تحققت الصلاحية */
+    align-items: center; justify-content: center;
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.6); transition: 0.3s;
+}
+
+/* لوحة التحكم الوردي */
+#adminPanel {
+    position: fixed; top: 50%; right: 65px; transform: translateY(-50%);
+    width: 310px; max-height: 80vh; background: rgba(15, 15, 15, 0.98);
+    border: 1px solid #ff1493; padding: 15px; border-radius: 15px;
+    z-index: 1001; display: none; flex-direction: column; backdrop-filter: blur(10px);
+}
+
+.field-box {
+    background: rgba(30, 30, 30, 0.6); padding: 8px; border-radius: 10px;
+    margin-bottom: 10px; border-right: 3px solid #ff1493;
+}
+
+.mini-signature {
+    display: inline-block; margin-top: 10px; font-size: 9px; color: #fff;
+    padding: 2px 8px; border: 1px solid #ff1493; border-radius: 50px;
+    background: rgba(255, 20, 147, 0.1);
+}
+
+/* تنسيق بطاقة المنشور العام */
+.post-card {
+    transition: transform 0.2s;
+    position: relative;
+}
+
+/* تأثير التبويبات النشطة */
+#tab-normal, #tab-urgent {
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+#tab-normal:hover, #tab-urgent:hover {
+    background: rgba(255, 215, 0, 0.05);
+}
+
+/* تمييز الخبر العاجل باللون الأحمر */
+.urgent-post-border {
+    border: 1px solid #ff4444 !important;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
+}
+
+/* تنسيق مربعات التحديد لتكون واضحة للأدمن */
+.post-select-checkbox {
+    accent-color: gold; /* يجعل لون الصح ذهبي */
+    cursor: pointer;
+}
+
+/* تحسين شكل صندوق النشر */
+#postInput::-webkit-scrollbar {
+    width: 5px;
+}
+
+#postInput::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+}
+
+/* أنيميشن عند ظهور المنشورات */
+@keyframes fadeInPost {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.post-card {
+    animation: fadeInPost 0.4s ease-out;
+}
+
+</style>
+</head>
+
+<body>
+<div id="topFloatingBtn" onclick="togglePanel()">TOP</div>
+
+<div id="adminPanel">
+    <div id="scrollableFields" style="max-height: 65vh; overflow-y: auto;">
+        <div id="fieldsWrapper"></div>
+    </div>
+    <button style="width:100%; padding:8px; background:#ff1493; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:8px;" onclick="publishSelected()">نشر المحددة (√)</button>
+</div>
+
+<div id="mic-system-container" style="background: #1e1e1e; padding: 15px 10px; border-radius: 12px; text-align: center; margin-top: 10px; margin-bottom: 10px; color: white; direction: rtl; display: block;">
+    <h4 style="margin: 0 0 15px 0; font-size: 14px; color: #00adb5;">🎙️ المايكات الصوتية للغرفة</h4>
+    
+    <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 15px; flex-wrap: wrap;">
+        <div class="mic-slot" id="slot-1" style="width: 65px; min-height: 95px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; font-size: 11px;">🔈 1</div>
+        <div class="mic-slot" id="slot-2" style="width: 65px; min-height: 95px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; font-size: 11px;">🔈 2</div>
+        <div class="mic-slot" id="slot-3" style="width: 65px; min-height: 95px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; font-size: 11px;">🔈 3</div>
+        <div class="mic-slot" id="slot-4" style="width: 65px; min-height: 95px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; font-size: 11px;">🔈 4</div>
+        <div class="mic-slot" id="slot-5" style="width: 65px; min-height: 95px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; font-size: 11px;">🔈 5</div>
+    </div>
+    
+    <button id="btn-up-mic" onclick="requestToGoUp()" style="background: #00adb5; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; transition: background 0.2s;">
+        طلب صعود المايك (UP) ⬆️
+    </button>
+</div>
+
+<audio id="mic-success-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-600.wav" preload="auto"></audio>
+
+
+<div class="top">
+    <div class="topBox">
+        <div onclick="showRooms()">🔙<br>غرف</div>
+        <div>🔥 شات عرب جوال</div>
+        <div class="topBtns">
+            <div onclick="checkAndOpen('bars', 'users')">👥<br>متصلين</div>
+            <div onclick="checkAndOpen('bars', 'posts')">🌠<br>منشورات</div>
+            <div onclick="checkAndOpen('bars', 'logout')">🚪<br>خروج</div>
+            <div onclick="checkAndOpen('bars', 'notif')">🔔<br>إشعارات</div>
+        </div>
+    </div>
+</div>
+
+
+<div id="roomName" style="text-align:center;background:#111;padding:5px;">اختر غرفة</div>
+<div id="chat" class="chat"></div>
+<div class="input">
+<input id="msg" placeholder="اكتب..." enterkeyhint="send">
+<button class="btn" onclick="send()">➤</button>
+</div>
+
+<div class="bottom">
+    <div onclick="checkAndOpen('bars', 'profile')">👤 ملفي</div>
+    <div onclick="checkAndOpen('bars', 'friends')">👥 أصدقاء</div>
+    <div onclick="checkAndOpen('admin', 'panel')">👑 لوحة</div>
+    <div onclick="checkAndOpen('admin', 'settings')">⚙️ إعدادات</div>
+</div>
+
+
+<div id="profileBox" style="display:none;position:fixed;top:0;width:100%;height:100%;background:#000c;z-index:99999;justify-content:center;align-items:center;">
+    <div style="width:95%; max-width:420px; background:#111; border-radius:20px; overflow-x:hidden; overflow-y:auto; max-height:95vh; position:relative; scrollbar-width: none;">
+
+    <div id="mainProfileBanner" style="width: 100%; height: 180px; background-color: #1a1a1a; background-size: cover; background-position: center;"></div>
+
+        <div onclick="closeProfile()" style="position:absolute;left:10px;top:10px;background:red;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;">✖</div>
+      
+        <div style="text-align:center;margin-top:-40px;">
+            <div style="position:relative;width:80px;height:80px;margin:auto;">
+                <img id="pAvatar" src="https://i.imgur.com/1X6VQ7G.png" style="width:80px;height:80px;border-radius:50%;border:3px solid gold;">
+                <img id="pFrame" style="position:absolute;top:-30px;left:-30px;width:140px;height:140px;pointer-events:none;">
+            </div>
+        </div>
+        <div style="text-align:center; padding: 10px;">
+            <div id="pName" style="font-size:16px;color:gold; font-weight:bold;"></div>
+            <div id="pRole" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 0;">
+    <img id="pRoleBadge" src="" style="width: 28px; height: 28px; display: none;" alt="وسام">
+    
+    <span id="pRoleName" style="font-size: 14px; font-weight: bold; color: gold;"></span>
+</div>
+
+            <div id="pBioText" style="font-size:13px; color:#ddd; margin: 5px 0;">جاري التحميل...</div>
+            <div id="pBirthText" style="font-size:11px; color:#aaa; margin-bottom: 10px;">--/--/----</div>
+        </div>
+        <div style="padding:10px;">
+            <div class="field" onclick="editBio()">✍️ تعديل السيرة الشخصية</div>
+            <div class="field" onclick="editBirth()">📅 تعديل تاريخ الميلاد</div>
+            <div class="field" onclick="document.getElementById('imgUpload').click()">📷 تغيير الصورة الشخصية</div>
+            <input type="file" id="imgUpload" style="display:none" accept="image/*" onchange="uploadToStorage(this)">
+        <div id="pFrameBtn" class="field" onclick="openMainFramesMenu()" style="display:none; cursor:pointer; padding:12px; background:#f0f0f0; border-radius:10px; text-align:center; font-weight:bold; border:1px solid #ccc;">🎨 الإطارات</div>
+
+<div id="framesBox" style="display:none; padding:15px; background:#fff; border:1px solid #ddd; border-radius:12px; flex-direction:column; gap:10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); max-width:400px; margin:10px auto;">
+    
+    <div id="mainFramesMenu">
+        <div onclick="showAdminFrames()" style="padding:12px; background:linear-gradient(45deg, #ffd700, #ffae00); margin-bottom:8px; border-radius:8px; cursor:pointer; font-weight:bold; color:#000;">👑 إطارات المدير</div>
+        <div onclick="alert('سوف تفعل هذه الميزة قريباً')" style="padding:12px; background:#f9f9f9; margin-bottom:8px; border-radius:8px; cursor:pointer; color:#999; border:1px dashed #ccc;">👮 إطارات المشرف (قريباً)</div>
+        <div onclick="alert('سوف تفعل هذه الميزة قريباً')" style="padding:12px; background:#f9f9f9; margin-bottom:8px; border-radius:8px; cursor:pointer; color:#999; border:1px dashed #ccc;">👤 إطارات العضو (قريباً)</div>
+    </div>
+
+    <div id="adminFramesSection" style="display:none; flex-direction:column; gap:12px;">
+        <button onclick="backToFramesMenu()" style="align-self:flex-start; padding:5px 10px; background:#eee; border:none; border-radius:5px; color:#333; cursor:pointer; font-size:12px;">⬅ رجوع</button>
+        
+        <label style="font-weight:bold; font-size:13px;">الروابط الجاهزة (4 إطارات):</label>
+        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px;">
+            <img src="https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/oie_aPzuHCVyVdiu.gif?alt=media&token=c36b2446-6d9c-4a2d-9f55-30c56d822fbc" onclick="previewFrame(this.src)" style="width:65px; height:65px; cursor:pointer; border:2px solid #eee; border-radius:8px;">
+            <img src="https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/oie_13235824DJ5NEj23.gif?alt=media&token=5bb5f2da-5972-4586-9e46-9306da7d07bd" onclick="previewFrame(this.src)" style="width:65px; height:65px; cursor:pointer; border:2px solid #eee; border-radius:8px;">
+            <img src="https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/oie_1322650Y350ezLn.gif?alt=media&token=d80b98cd-a339-4e40-80fa-b8c90fb31200" onclick="previewFrame(this.src)" style="width:65px; height:65px; cursor:pointer; border:2px solid #eee; border-radius:8px;">
+            <img src="https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/oie_1322460RULRpzvq.gif?alt=media&token=cedeafb3-14a6-4c8f-829e-d06552d0fd5d" onclick="previewFrame(this.src)" style="width:65px; height:65px; cursor:pointer; border:2px solid #eee; border-radius:8px;">
+        </div>
+
+        <hr style="width:100%; border:0.5px solid #eee;">
+
+        <div style="text-align:right;">
+            <label style="font-size:12px; display:block; margin-bottom:5px;">📤 رفع من الهاتف:</label>
+            <input type="file" accept="image/*" onchange="uploadFrameFile(this)" style="font-size:11px; width:100%;">
+        </div>
+
+        <div style="text-align:right;">
+            <label style="font-size:12px; display:block; margin-bottom:5px;">🔗 رابط خارجي:</label>
+            <div style="display:flex; gap:5px;">
+                <input type="text" id="extLink" placeholder="ضع رابط الإطار هنا..." style="flex:1; font-size:12px; padding:5px; border:1px solid #ddd; border-radius:5px;">
+                <button onclick="previewFrame(document.getElementById('extLink').value)" style="background:#007bff; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">عرض</button>
+            </div>
+        </div>
+
+        <button id="saveFrameBtn" onclick="saveFrameToDB()" style="display:none; padding:12px; background:#28a745; color:white; border:none; border-radius:10px; cursor:pointer; font-weight:bold; margin-top:10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1);">✅ حفظ الإطار نهائياً</button>
+    </div>
+</div>
+
+
+            <div class="field">👑 الرتب</div>
+           <div class="field" onclick="openColorPicker()">🌈 لون الاسم</div>
+
+<div id="colorPickerOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+    <div style="background:#222; padding:20px; border-radius:15px; text-align:center; width:80%; max-width:300px;">
+        <h3 style="color:white; margin-bottom:15px;">اختر لون الاسم</h3>
+        <div id="colorGrid" style="display:flex; flex-wrap:wrap; justify-content:center; margin-bottom:20px;"></div>
+        <button onclick="saveColorToFirebase()" style="background:#28a745; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">حفظ</button>
+        <button onclick="closePicker()" style="background:#dc3545; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; margin-right:5px;">إغلاق</button>
+    </div>
+</div>
+<div class="edit-banner-section" style="margin: 15px 0; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid #333;">
+    <label style="font-size: 13px; color: #00d2ff; display: block; margin-bottom: 8px; font-weight: bold;">🖼️ غلاف البروفايل (800x300):</label>
+    
+    <div style="display: flex; gap: 8px; align-items: center;">
+        <input type="text" id="memberBannerInput" placeholder="رابط مباشر أو اختر من الهاتف..." 
+               style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #444; background: #000; color: #fff; font-size: 13px;">
+        
+        <label for="memberBannerFile" style="background: #444; color: #fff; padding: 9px 14px; border-radius: 6px; cursor: pointer; font-size: 18px; transition: 0.3s;" title="اختيار صورة">📎</label>
+        <input type="file" id="memberBannerFile" accept="image/*" style="display: none;" onchange="processAndCompressImage(this)">
+        
+        <button onclick="saveMemberBanner()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 10px 15px; cursor: pointer; font-size: 13px; font-weight: bold;">حفظ</button>
+    </div>
+    <small style="color: #888; font-size: 10px; margin-top: 5px; display: block;">* يتم تصغير الصور الكبيرة تلقائياً للحفاظ على الأداء.</small>
+</div>
+
+<div id="pGifBtn" class="field" onclick="openGifPicker()" style="display: none; border: 2px solid #ff00ff; color: #ff00ff; font-weight: bold; cursor: pointer; padding: 10px; margin: 10px; border-radius: 8px; text-align: center;">
+    🔥 ألوان GIF خرافية
+</div>
+
+<div id="gifPickerOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; justify-content:center; align-items:center;">
+    <div style="background:#111; padding:20px; border-radius:15px; text-align:center; width:90%; max-width:320px; border: 2px solid #ff00ff; max-height: 80vh; overflow-y: auto;">
+        <h3 style="color:#ff00ff; margin-bottom:15px;">اختر لونك الخرافي</h3>
+        <div id="gifGrid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 10px; justify-items: center; margin-bottom: 20px;"></div>
+        <button onclick="saveGifColor()" style="background:#ff00ff; color:white; border:none; padding:12px 25px; border-radius:8px; font-weight:bold; cursor:pointer; width: 100%;">تفعيل اللون 🔥</button>
+        <button onclick="closeGifPicker()" style="background:#333; color:white; border:none; padding:8px; border-radius:8px; cursor:pointer; margin-top:10px; width: 100%;">إغلاق</button>
+    </div>
+</div>
+
+<div class="field">
+    ✍️ لون الكتابة
+    <select id="userTextColor" class="color-select">
+        <option value="">إختر لوناً...</option>
+        <option value="m1" style="color: #ffffff; background: #222;">الأبيض</option>
+        <option value="m2" style="color: #ffeb3b; background: #222;">الأصفر</option>
+        <option value="m3" style="color: #ff9800; background: #222;">البرتقالي</option>
+        <option value="m4" style="color: #f44336; background: #222;">الأحمر</option>
+        <option value="m5" style="color: #e91e63; background: #222;">الوردي</option>
+        <option value="m6" style="color: #9c27b0; background: #222;">البنفسجي</option>
+        <option value="m7" style="color: #2196f3; background: #222;">الأزرق</option>
+        <option value="m8" style="color: #00bcd4; background: #222;">الفيروزي</option>
+        <option value="m9" style="color: #4caf50; background: #222;">الأخضر</option>
+        <option value="m10" style="color: #ffd700; background: #222;">الذهبي</option>
+        
+        <option value="m11" style="color: #bcaaa4; background: #222;">بني خفيف</option>
+        <option value="m12" style="color: #81d4fa; background: #222;">أزرق ثلجي</option>
+        <option value="m13" style="color: #a5d6a7; background: #222;">أخضر هادئ</option>
+        <option value="m14" style="color: #ffccbc; background: #222;">مشمشي</option>
+        <option value="m15" style="color: #eeeeee; background: #222;">رمادي</option>
+        <option value="m16" style="color: #d1c4e9; background: #222;">لافندر</option>
+        <option value="m17" style="color: #80deea; background: #222;">سماوي</option>
+        <option value="m18" style="color: #fff59d; background: #222;">ليموني</option>
+        <option value="m19" style="color: #ffab91; background: #222;">مرجاني</option>
+        <option value="m20" style="color: #ce93d8; background: #222;">أرجواني</option>
+    </select>
+</div>
+
+<div id="pGiftsBtn" class="field" onclick="openGiftsSystem()" style="cursor:pointer;">🎁 الهدايا</div>
+
+            <div class="field">💰 النقاط</div>
+        <div id="adminBtn" class="field" onclick="toggleAdminPanel()" style="display:none; color:red; font-weight:bold; cursor:pointer;">👑 لوحة التحكم</div>
+
+<div id="adminPanelContent" style="display:none; margin:10px; padding:10px; background:rgba(255,255,255,0.05); border:1px dashed red; border-radius:10px;">
+    <label style="font-size:12px; color:#ccc; display:block; margin-bottom:5px;">📝 تعديل الاسم المستعار:</label>
+    <div style="display:flex; gap:5px;">
+        <input type="text" id="newNameInput" placeholder="اكتب الاسم الجديد هنا..." style="flex:1; padding:8px; border-radius:5px; border:1px solid #444; background:#000; color:#fff; font-size:13px;">
+        <button onclick="saveNewName()" style="background:red; color:white; border:none; border-radius:5px; padding:0 15px; cursor:pointer; font-weight:bold;">حفظ</button>
+    </div>
+</div>
+
+</div>
+    </div>
+</div>
+
+
+<div id="rooms" class="rooms">
+    <div class="marquee"><span>🔥 اهلاً وسهلاً بكم منورين الشات 🔥</span></div>
+    <div class="roomsList">
+        
+        <div style="color:gold;margin:10px;text-align:center;">🌍 الغرف العامة</div>
+        <div class="room" onclick="enterRoom('global')"><span class="roomName">🏠 روم العامه</span><span id="globalCount" class="count">0</span></div>
+        <div class="room" onclick="enterRoom('iraq')"><span class="roomName">🇮🇶 روم العراق</span><span id="iraqCount" class="count">0</span></div>
+        <div class="room" onclick="enterRoom('saudi')"><span class="roomName">🇸🇦 روم السعودية</span><span id="saudiCount" class="count">0</span></div>
+        <div class="room" onclick="enterRoom('kuwait')"><span class="roomName">🇰🇼 روم الكويت</span><span id="kuwaitCount" class="count">0</span></div>
+        <div class="room" onclick="enterRoom('morocco')"><span class="roomName">🇲🇦 روم المغرب</span><span id="moroccoCount" class="count">0</span></div>
+        <div class="room" onclick="enterRoom('egypt')"><span class="roomName">🇪🇬 روم مصر</span><span id="egyptCount" class="count">0</span></div>
+        <div class="room" onclick="enterRoom('gulf')"><span class="roomName">🌍 روم الخليج</span><span id="gulfCount" class="count">0</span></div>
+
+        <div style="color:gold;margin:15px 0;text-align:center;">🎉 الترفيه</div>
+        <div class="room" onclick="enterRoom('fun')"><span class="roomName">😂 روم وناسه</span><span id="funCount" class="count">0</span></div>
+        <div class="room" onclick="enterRoom('friends')"><span class="roomName">👥 روم الاصدقاء</span><span id="friendsCount" class="count">0</span></div>
+        <div class="room" onclick="enterRoom('games')"><span class="roomName">🎮 روم المسابقات</span><span id="gamesCount" class="count">0</span></div>
+
+        <div style="color:gold;margin:15px 0;text-align:center;">🔒 غرف خاصة</div>
+        <div class="room" onclick="enterPrivateRoom('mods', '1992')"><span class="roomName">🔒 روم المدراء</span><span id="modsCount" class="count">0</span></div>
+        <div class="room" onclick="enterPrivateRoom('admin', 'noory')"><span class="roomName">🔒 روم الادارة</span><span id="adminCount" class="count">0</span></div>
+
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+
+
+<script>
+let selectedC = ""; 
+const firebaseConfig = {
+    apiKey: "AIzaSyAV57SZcwoMoHT4iEBbyd9hsuCokjEwmb4",
+    authDomain: "anwar-chat.firebaseapp.com",
+    databaseURL: "https://anwar-chat-default-rtdb.firebaseio.com",
+    projectId: "anwar-chat",
+    storageBucket: "anwar-chat.firebasestorage.app",
+    messagingSenderId: "1080145984962",
+    appId: "1:1080145984962:web:1ee0e18720232dc705ea5b",
+    measurementId: "G-QD5L9RDZBD"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+const db = firebase.database();
+const storage = firebase.storage();
+
+// --- حل مشكلة الهوية (تم تسجيل الخطأ وإصلاحه هنا) ---
+let uid = localStorage.getItem("uid");
+
+// إذا لم يجد UID (يعني الشخص لم يدخل من صفحة index)
+if (!uid) {
+    // نتحقق أولاً هل هو مسجل دخول فعلياً في فايربيس؟
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            uid = user.uid;
+            localStorage.setItem("uid", uid);
+        } else {
+            // إذا لم يكن عضواً ولا يوجد له UID، هنا فقط نعتبره زائراً جديداً
+            uid = "guest_" + Date.now();
+            localStorage.setItem("uid", uid);
+            firebase.database().ref("users/" + uid).set({
+                username: "زائر جديد",
+                role: "guest",
+                bio: "محبوب",
+                image: "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media&token=156bb233-e78a-41c9-9b26-83781d761487"
+            });
+        }
+    });
+}
+
+// ربط العناصر بالـ HTML (كما هي في كودك)
+const chatBox = document.getElementById("chat"); 
+const roomsBox = document.getElementById("rooms"); 
+const msgInput = document.getElementById("msg");
+const roomNameDisplay = document.getElementById("roomName");
+
+let ref = null, userRef = null, room = "";
+
+// 3. نظام الحماية والمحرك (checkAndOpen)
+function checkGuestLimit(actionType) {
+    return firebase.database().ref("users/" + uid).once("value").then(snap => {
+        let userData = snap.val() || {};
+        if (userData.role === "guest" || !userData.role) {
+            if (actionType === "bars") {
+                alert("⚠️ ميزة مخصصة للأعضاء والمشرفين. سجل معلوماتك أولاً.");
+                return false;
+            }
+            if (actionType === "admin") {
+                alert("🚫 تنبيه: هذه الميزة للمشرفين والمدير فقط.");
+                return false;
+            }
+        }
+        return true;
+    });
+}
+
+async function checkAndOpen(type, feature) {
+    let isAllowed = await checkGuestLimit(type);
+    if (isAllowed) {
+        switch(feature) {
+            case 'users': alert("👥 قائمة المتصلين قريباً..."); break;
+case 'posts': openPostsArea(); break;
+            case 'notif': alert("🔔 الإشعارات قريباً..."); break;
+            
+            // هذا هو السطر الذي قمنا بتعديله لضمان الخروج الحقيقي
+            case 'logout': 
+                if(confirm("هل أنت متأكد من تسجيل الخروج؟")) {
+                    firebase.auth().signOut().then(() => {
+                        localStorage.clear(); 
+                        window.location.href = "index.html";
+                    }).catch(() => {
+                        localStorage.clear(); 
+                        window.location.href = "index.html";
+                    });
+                } 
+            break;
+
+            case 'profile': toggleProfile(); break;
+            case 'friends': alert("👥 قائمة الأصدقاء قريباً..."); break;
+            case 'panel': alert("👑 لوحة الإدارة..."); break;
+            case 'settings': alert("⚙️ الإعدادات..."); break;
+        }
+    }
+}
+// 4. دالة دخول الغرف المحدثة والمدمج بها نظام المايكات الآمن ومحرك LiveKit الصوتي الجديد
+function enterRoom(r) {
+    // 0. 🔥 قطع الصوت تماماً عن الغرفة السابقة قبل الدخول للغرفة الجديدة لمنع التداخل (LiveKit)
+    if (typeof leaveLiveKitVoice === "function") {
+        leaveLiveKitVoice();
+    }
+
+    // 1. تنظيف شامل قبل الدخول لمنع "تجميد" المتصفح
+    if (ref) ref.off(); 
+    if (userRef) userRef.remove();
+    
+    room = r;
+    chatBox.innerHTML = "";
+    if(roomsBox) roomsBox.style.display = "none";
+    if(roomNameDisplay) roomNameDisplay.innerText = "غرفة: " + r;
+
+    // المسارات كما هي في كودك
+    ref = firebase.database().ref("messages/" + room);
+    userRef = firebase.database().ref("rooms/" + room + "/users/" + uid);
+
+    // 2. إصلاح الهوية: جلب الاسم والصورة الحقيقية من الذاكرة
+    const defaultImg = "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media&token=156bb233-e78a-41c9-9b26-83781d761487";
+    
+    let myName = localStorage.getItem("name") || "زائر";
+    let myImg = localStorage.getItem("userImg") || defaultImg;
+    let myRole = localStorage.getItem("role") || "user"; // الاعتماد على user كقيمة افتراضية
+
+    userRef.set({
+        name: myName,
+        image: myImg,
+        role: myRole,
+        frame: localStorage.getItem("userFrame") || "",
+        color: localStorage.getItem("userColor") || "", 
+        tColor: localStorage.getItem("tColor") || "",
+        status: "online"
+    });
+
+    userRef.onDisconnect().remove();
+
+    // تشغيل عرض الرسائل القديم الخاص بك
+    load();
+
+    // ✨ [تفعيل محرك الصوت الحقيقي وفصل الغرفة صوتياً فور الدخول عبر LiveKit]
+    if (typeof initLiveKitVoice === "function") {
+        initLiveKitVoice(room);
+    }
+
+    // ✨ [تفعيل المايكات هنا]: تشغيل مستمع المايكات الآمن فور دخول الغرفة بنجاح
+    if (typeof listenToRoomMics === "function") {
+        listenToRoomMics(room);
+    }
+}
+
+  // تحديث بيانات البروفايل والرتبة تلقائياً
+firebase.database().ref("users/" + uid).on("value", snap => {
+    let user = snap.val();
+    if (user) {
+        // --- [إضافة: حفظ البيانات في الذاكرة لضمان عمل الشات ودخول الأدمن] ---
+        localStorage.setItem("uid", uid);
+        localStorage.setItem("role", user.role || "user");
+        localStorage.setItem("name", user.username || "عضو");
+        localStorage.setItem("userImg", user.image || "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media&token=156bb233-e78a-41c9-9b26-83781d761487");
+        localStorage.setItem("userFrame", user.frame || ""); // لحل مشكلة الإطار
+        localStorage.setItem("userColor", user.color || ""); // لحفظ لون g3
+        localStorage.setItem("tColor", user.tColor || "");   // لحفظ اللون الذهبي
+        // -------------------------------------------------------
+
+        if (document.getElementById("pName")) document.getElementById("pName").innerText = user.username || "زائر";
+        if (document.getElementById("pBioText")) document.getElementById("pBioText").innerText = user.bio || "لا توجد سيرة";
+        if (document.getElementById("pBirthText")) document.getElementById("pBirthText").innerText = user.age || "--/--/----";
+        
+        // تعديل الرابط هنا ليكون الرابط الرسمي الذي اتفقنا عليه
+        if (document.getElementById("pAvatar")) document.getElementById("pAvatar").src = user.image || "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media&token=156bb233-e78a-41c9-9b26-83781d761487";
+        
+        // هذا السطر (خاص بالإطارات)
+        if (user.frame && document.getElementById("pFrame")) {
+            document.getElementById("pFrame").src = user.frame;
+            document.getElementById("pFrame").style.display = "block";
+        }
+
+        // كود البانر المطور الخاص بك كما هو
+        let bnrArea = document.getElementById("mainProfileBanner");
+        if (bnrArea) {
+            if (user.profileBanner) {
+                bnrArea.style.backgroundImage = "url('" + user.profileBanner + "')";
+            } else {
+                bnrArea.style.backgroundImage = "none";
+                bnrArea.style.backgroundColor = "#1a1a1a";
+            }
+        }
+
+        // --- حماية خانة الإطارات ---
+        let frameBtn = document.getElementById("pFrameBtn");
+        if (frameBtn) frameBtn.style.display = (user.role === "admin" || user.role === "vip") ? "block" : "none";
+
+        // --- حماية خانة ألوان GIF ---
+        let gifBtn = document.getElementById("pGifBtn");
+        if (gifBtn) gifBtn.style.display = (user.role === "admin" || user.role === "vip") ? "block" : "none";
+
+        // --- جلب الرتبة والوسام (كودك كما هو) ---
+        let roleKey = user.role || "user"; 
+        firebase.database().ref("roles/" + roleKey).once("value", roleSnap => {
+            let roleData = roleSnap.val();
+            let roleNameElem = document.getElementById("pRoleName");
+            let badgeImgElem = document.getElementById("pRoleBadge");
+            if (roleData) {
+                if (roleNameElem) roleNameElem.innerText = roleData.name || roleKey;
+                if (badgeImgElem) {
+                    if (roleData.image) { 
+                        badgeImgElem.src = roleData.image;
+                        badgeImgElem.style.display = "inline-block";
+                    } else { 
+                        badgeImgElem.style.display = "none"; 
+                    }
+                }
+            }
+        });
+
+        // --- أزرار لوحة التحكم و TOP (كودك كما هو) ---
+        let adminBtn = document.getElementById("adminBtn");
+        if (adminBtn) adminBtn.style.display = (user.role === "admin" || user.role === "mod" || user.role === "vip") ? "block" : "none";
+
+        let topBtn = document.getElementById("topFloatingBtn");
+        if (topBtn) topBtn.style.display = (user.role === "admin" || user.role === "vip") ? "flex" : "none";
+
+    } // إغلاق شرط if (user)
+});
+
+
+// وظيفة فتح وإغلاق لوحة التحكم
+function toggleAdminPanel() {
+    let panel = document.getElementById("adminPanelContent");
+    if (panel.style.display === "none" || panel.style.display === "") {
+        panel.style.display = "block";
+    } else {
+        panel.style.display = "none";
+    }
+}
+
+// وظيفة حفظ الاسم الجديد في قاعدة البيانات
+function saveNewName() {
+    let newName = document.getElementById("newNameInput").value;
+    let currentUser = firebase.auth().currentUser;
+
+    if (newName && newName.trim() !== "" && currentUser) {
+        // تحديث الاسم في مسار المستخدم داخل Firebase
+        firebase.database().ref("users/" + currentUser.uid).update({
+            username: newName
+        }).then(() => {
+            alert("✅ تم تحديث الاسم بنجاح!");
+            document.getElementById("newNameInput").value = ""; 
+            document.getElementById("adminPanelContent").style.display = "none"; 
+        }).catch((error) => {
+            alert("❌ حدث خطأ أثناء التحديث");
+            console.error(error);
+        });
+    } else {
+        alert("⚠️ يرجى كتابة اسم صالح");
+    }
+}
+
+async function send() {
+    let msg = msgInput.value.trim();
+    
+    if (!room) { alert("اختار غرفة أولاً"); return; }
+    if (!msg) return;
+
+    const defaultImg = "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media&token=156bb233-e78a-41c9-9b26-83781d761487";
+
+    try {
+        let myName = localStorage.getItem("name") || "زائر";
+        let myRole = localStorage.getItem("role") || "guest";
+        let myImg = localStorage.getItem("userImg") || defaultImg;
+        let textCol = localStorage.getItem('myTextColor') || "m1";
+        
+        // 🔥 إضافة الميزات المفقودة (جلبها من الذاكرة المحلية)
+        let myFrame = localStorage.getItem("userFrame") || ""; // رابط الإطار
+        let myNameColor = localStorage.getItem("userColor") || ""; // لون الاسم (مثل n1, n2)
+
+        firebase.database().ref("messages/" + room).push({
+            userId: uid,
+            name: myName,
+            text: msg,
+            textColor: textCol,
+            color: myNameColor,    // 🔥 إرسال لون الاسم للقاعدة
+            frame: myFrame,        // 🔥 إرسال رابط الإطار للقاعدة
+            role: myRole,     
+            image: myImg, 
+            type: "text",                       
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            timestamp: firebase.database.ServerValue.TIMESTAMP 
+        });
+
+        msgInput.value = "";
+        msgInput.focus();
+
+    } catch (error) {
+        console.error("خطأ في إرسال الرسالة:", error);
+    }
+}
+
+
+// 1. الدالة الأساسية لتحميل الرسائل وإعلانات الهدايا
+function load() {
+    if (!ref) return;
+    ref.off();
+    chatBox.innerHTML = ""; 
+
+    // الرابط المعتمد الذي أرسلته أنت
+    const defaultImg = "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media&token=156bb233-e78a-41c9-9b26-83781d761487";
+
+    ref.orderByChild("timestamp").limitToLast(50).on("child_added", (s) => {
+        let d = s.val();
+        if (!d) return; 
+
+        // --- قسم إعلان الـ TOP الملكي ---
+        if (d.type === "top_ad") {
+            let now = Date.now();
+            let adTime = d.serverTime || d.timestamp;
+            if (now - adTime > 15000) return; 
+            showTopAd(d.text, d.link, d.topImage);
+            return; 
+        }
+   
+        // --- قسم البوت (إعلان الهدية) ---
+        if (d.type === "gift_announcement") {
+            let now = Date.now();
+            let giftTime = d.serverTime || d.timestamp; 
+            if (now - giftTime > 10000) return; 
+
+            let div = document.createElement("div");
+            div.className = "admin-announcement"; 
+            div.style.transition = "opacity 1s ease"; 
+            chatBox.appendChild(div);
+
+            div.innerHTML = `
+                <div class="bot-header">
+                    <img src="${defaultImg}" class="bot-avatar">
+                    <div>
+                        <span class="bot-badge">SYSTEM BOT</span>
+                        <div style="color:gold; font-weight:bold; font-size:13px;">الإدارة العامة</div>
+                    </div>
+                </div>
+                <div style="text-align:center; padding: 5px;">
+                    <div style="color:#fff; font-size:13px; margin-bottom:8px;">
+                        🌟 أهلاً وسهلاً! قام <span style="color:cyan;">${d.senderName}</span> 
+                        بإهداء <span style="color:pink;">${d.receiverName}</span> هدية ملكية
+                    </div>
+                    <img src="${d.giftUrl}" style="width:60px; height:60px; animation: giftBounce 1s infinite;">
+                </div>
+            `;
+            
+            showFloatingGift(d.senderName, d.receiverName, d.giftUrl);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            setTimeout(() => {
+                if (div) {
+                    div.style.opacity = "0"; 
+                    setTimeout(() => div.remove(), 1000); 
+                }
+            }, 10000);
+            return; 
+        }
+
+        // --- قسم الرسائل (تم حل مشكلة الـ 50 مستمع والجمود) ---
+        let div = document.createElement("div");
+        div.className = "msg";
+        chatBox.appendChild(div); 
+
+        // استخدام بيانات الرسالة مباشرة لتقليل استهلاك المعالج
+        let currentRole = d.role || "user";
+        
+        firebase.database().ref('roles/' + currentRole).once('value', (roleSnap) => {
+            let roleData = roleSnap.val() || {};
+            let roleBadge = (roleData.image) ? `<img src="${roleData.image}" style="width:16px; height:16px; vertical-align:middle; margin-right:4px;" onerror="this.style.display='none'">` : "";
+            let roleTitle = roleData.name ? `<span style="font-size:10px; background:rgba(255,255,255,0.15); padding:1px 5px; border-radius:4px; margin-right:4px; vertical-align:middle; font-weight:bold;">${roleData.name}</span>` : "";
+
+            let myRole = localStorage.getItem("role");
+            let canClick = (myRole === "admin" || myRole === "vip" || myRole === "mod");
+            let clickAction = canClick ? `onclick="openControlMenu('${d.uid || d.userId}', '${d.name}')"` : "";
+
+            let userFrame = (d.frame && d.frame !== "null") ? `<img class="frameImg" src="${d.frame}" onerror="this.style.display='none'">` : "";
+
+            div.innerHTML = `
+                <div class="msgHead">
+                    <div class="avatarBox" ${clickAction} style="${canClick ? 'cursor:pointer;' : ''}">
+                        <img class="avatarImg" src="${d.image || defaultImg}">
+                        ${userFrame}
+                    </div>
+                    <div>
+                        ${roleBadge} ${roleTitle}  
+                        <span class="name ${d.color || ''}">${d.name || "عضو"}</span>
+                    </div>
+                </div>
+                <div class="text ${d.textColor || ''}">${d.text || ''}</div>
+                <div class="time">${d.time || ''}</div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+    });
+}
+
+// 2. محرك الحركة الجانبية
+function showFloatingGift(sender, receiver, giftImg) {
+    const notify = document.createElement("div");
+    notify.style.cssText = `
+        position: fixed; top: 25%; right: -100%;
+        background: linear-gradient(270deg, rgba(0,0,0,0.9), rgba(139,0,0,0.9));
+        color: white; padding: 12px 25px; border-radius: 50px 0 0 50px;
+        border: 2px solid gold; z-index: 99999; display: flex;
+        align-items: center; gap: 15px; font-weight: bold;
+        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: -5px 0 20px rgba(255, 215, 0, 0.5); min-width: 300px;
+    `;
+    notify.innerHTML = `
+        <img src="${giftImg}" style="width: 55px; height: 55px; filter: drop-shadow(0 0 5px gold); animation: giftBounce 1s infinite;">
+        <div style="font-size: 14px; line-height: 1.4;">
+            <span style="color: gold; font-size: 15px;">${sender}</span> <br>
+            <span style="color: #fff;">أهدآء خاص من الاداره</span> <span style="color: #0f0;">${receiver}</span>
+        </div>
+        <div style="background: gold; color: black; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 20px;">👑</div>
+    `;
+    document.body.appendChild(notify);
+    setTimeout(() => { notify.style.right = "0"; }, 100);
+    setTimeout(() => {
+        notify.style.right = "-100%";
+        setTimeout(() => notify.remove(), 1000);
+    }, 7000);
+}
+
+// 3. دالة التحكم المؤمنة (تحديث الماضي والحاضر داخل الشاشة مباشرة بدون مسح وبدون ريفريش)
+function openControlMenu(targetUid, targetName) {
+    // الأقفال الأمنية الثابتة والنهائية (أنت والمساعد)
+    const OWNER_UID = "BZKPUUsV0ZMb9qfLmkSyMtVuSlS2"; 
+    const OWNER_EMAIL = "anwon92web@gmail.com";
+    
+    const ASSISTANT_VIP_UID = "8yCZnLUVTeXI7oOQCoVWMSXCkun1";
+    const ASSISTANT_VIP_EMAIL = "almoosea@gmail.com";
+
+    let currentUser = firebase.auth().currentUser;
+    let myCurrentUid = currentUser ? currentUser.uid : null;
+    let myCurrentEmail = currentUser ? currentUser.email : "";
+
+    if (!myCurrentUid) {
+        alert("⚠️ يجب تسجيل الدخول أولاً!");
+        return;
+    }
+
+    // [فحص القوة المطلقة للمالك والمساعد]
+    let hasAbsolutePower = (
+        (myCurrentUid === OWNER_UID) || (myCurrentEmail === OWNER_EMAIL) ||
+        (myCurrentUid === ASSISTANT_VIP_UID) || (myCurrentEmail === ASSISTANT_VIP_EMAIL)
+    );
+
+    // 1. جلب بياناتك للتأكد من رتبتك وصلاحياتك
+    firebase.database().ref("users/" + myCurrentUid).once("value").then(mySnap => {
+        let myUser = mySnap.val() || {};
+        let myRole = myUser.role || "user";
+
+        if (!hasAbsolutePower && myRole !== "admin" && myRole !== "vip" && myRole !== "mod") return;
+
+        // 2. جلب بيانات العضو المستهدف وتطبيق القوانين الهرمية
+        firebase.database().ref("users/" + targetUid).once("value").then(targetSnap => {
+            let targetUser = targetSnap.val() || {};
+            let targetRole = targetUser.role || "user";
+
+            // حماية مطلقة للإدارة العليا
+            if (!hasAbsolutePower && (targetUid === OWNER_UID || targetUid === ASSISTANT_VIP_UID)) {
+                alert("❌ خطأ أمني: لا يمكن تعديل أو سحب صلاحيات الإدارة العليا نهائياً!");
+                return;
+            }
+
+            let showOption1 = false;
+            let showOption2 = false;
+            let showOption3 = false;
+
+            // توزيع الصلاحيات الدقيقة كما طلبتها حرفياً:
+            if (hasAbsolutePower) {
+                showOption1 = true; showOption2 = true; showOption3 = true; // المالك والمساعد صلاحية مطلقة
+            } else if (myRole === "admin" || myRole === "vip") {
+                // الأدمن أو الـ vip غيرك يتحكم بنفسه وبالعضو العادي وبالمشرف mod فقط
+                if (myCurrentUid === targetUid || targetRole === "user" || targetRole === "mod") {
+                    showOption1 = true; showOption2 = true; showOption3 = true;
+                }
+            } else if (myRole === "mod") {
+                if (myCurrentUid === targetUid) { showOption1 = true; } // المشرف يعدل اسمه فقط
+            }
+
+            if (!showOption1 && !showOption2 && !showOption3) {
+                alert("⚠️ لا تملك صلاحية للتحكم في هذا الحساب!");
+                return;
+            }
+
+            let menuText = `التحكم في العضو: ${targetName} (${targetRole})\n\n`;
+            if (showOption1) menuText += "1 - تغيير اسم المستخدم\n";
+            if (showOption2) menuText += "2 - ترقية رتبة العضو\n";
+            if (showOption3) menuText += "3 - سحب الرتبة والتجريد الكامل\n";
+
+            let choice = prompt(menuText);
+            if (!choice) return;
+
+            // 🔥 دالة التحديث السحري والمباشر للرسائل القديمة على الشاشة فوراً بدون مسح
+            function updateLiveDOM(newName, newRole, newColor, newFrame) {
+                // الكود سيلف على كل عناصر الرسائل في الشات المفتوح حالياً
+                // ملاحظة: تأكد أن عنصر الرسالة في كودك يحتوي على داتا آيدي مثل data-uid أو كلاس يحمل الآيدي
+                let allMessages = document.querySelectorAll(`[data-uid="${targetUid}"], .user-${targetUid}`);
+                
+                allMessages.forEach(msgElem => {
+                    // 1. تحديث الاسم لو تغير
+                    if (newName) {
+                        let nameElem = msgElem.querySelector(".username, .name");
+                        if (nameElem) nameElem.innerText = newName;
+                    }
+                    // 2. تحديث لون الاسم أو كلاس الرتبة
+                    if (newColor) {
+                        let nameElem = msgElem.querySelector(".username, .name");
+                        if (nameElem) {
+                            nameElem.className = `username ${newColor}`; // لتغيير اللون حياً مثل n1, n2
+                        }
+                    }
+                    // 3. تحديث الإطار حياً في الرسائل القديمة
+                    if (newFrame !== undefined) {
+                        let frameImg = msgElem.querySelector(".frameImg, .user-frame");
+                        if (frameImg) frameImg.src = newFrame;
+                    }
+                });
+            }
+
+            // ==========================================
+            // --- الخيار 1: تغيير اسم المستخدم ---
+            // ==========================================
+            if (choice === "1" && showOption1) {
+                if (!hasAbsolutePower && (myRole === "admin" || myRole === "vip") && targetRole !== "user" && targetRole !== "mod" && myCurrentUid !== targetUid) {
+                    alert("⚠️ غير مسموح لك بتعديل أسماء أصحاب الرتب العليا!");
+                    return;
+                }
+
+                let newName = prompt("أدخل الاسم الجديد:");
+                if (newName && newName.trim() !== "") {
+                    firebase.database().ref("users/" + targetUid).update({ username: newName }).then(() => {
+                        if (targetUid === myCurrentUid) {
+                            localStorage.setItem("username", newName);
+                            localStorage.setItem("name", newName);
+                        }
+                        alert("✅ تم تغيير الاسم بنجاح!");
+                        updateLiveDOM(newName, null, null, null); // تحديث الاسم في الرسائل القديمة فوراً
+                        if(document.getElementById("adminPanelContent")) document.getElementById("adminPanelContent").style.display = "none";
+                    });
+                }
+            } 
+            
+            // ==========================================
+            // --- الخيار 2: ترقية الرتبة ---
+            // ==========================================
+            else if (choice === "2" && showOption2) {
+                if (!hasAbsolutePower && (myRole === "admin" || myRole === "vip") && targetRole !== "user" && targetRole !== "mod") {
+                    alert("⚠️ لا يمكنك تعديل رتب أصحاب الرتب العليا!");
+                    return;
+                }
+
+                let rMsg = "اختر الرتبة المراد تعيينها:\n1- Admin\n2- Mod (مشرف)\n3- VIP";
+                let rChoice = prompt(rMsg);
+                let r = { "1": "admin", "2": "mod", "3": "vip" }[rChoice];
+
+                if (r) {
+                    if (!hasAbsolutePower && (myRole === "admin" || myRole === "vip") && (r === "admin" || r === "vip")) {
+                        alert("⚠️ صلاحيتك تسمح لك بترقية الأعضاء إلى رتبة Mod (مشرف) فقط!");
+                        return;
+                    }
+
+                    let targetColor = (r === "admin") ? "n1" : (r === "vip" ? "n2" : "n3"); 
+                    let updateData = { role: r, color: targetColor };
+
+                    if (targetUid !== OWNER_UID && targetUid !== ASSISTANT_VIP_UID) {
+                        let days = prompt("أدخل عدد أيام صلاحية الرتبة (اتركه فارغاً لتكون دائمة):");
+                        if (days && !isNaN(days)) {
+                            updateData.expireDate = Date.now() + (parseInt(days) * 24 * 60 * 60 * 1000);
+                        } else {
+                            updateData.expireDate = "permanent"; 
+                        }
+                    } else {
+                        updateData.expireDate = "permanent"; 
+                    }
+
+                    firebase.database().ref("users/" + targetUid).update(updateData).then(() => {
+                        if (targetUid === myCurrentUid) {
+                            localStorage.setItem("role", r);
+                            localStorage.setItem("userColor", targetColor);
+                        }
+                        alert(`✅ تم تعيين رتبة (${r}) بنجاح!`);
+                        updateLiveDOM(null, r, targetColor, null); // تحديث رتبة ولون الرسائل القديمة فوراً أمامك
+                        if(document.getElementById("adminPanelContent")) document.getElementById("adminPanelContent").style.display = "none";
+                    });
+                }
+            } 
+            
+            // ==========================================
+            // --- الخيار 3: التجريد وسحب الرتب ---
+            // ==========================================
+            else if (choice === "3" && showOption3) {
+                if (!hasAbsolutePower && (myRole === "admin" || myRole === "vip") && targetRole !== "mod") {
+                    alert("⚠️ صلاحيتك تسمح لك بسحب رتبة المشرف (mod) فقط!");
+                    return;
+                }
+
+                if (confirm(`هل أنت متأكد من سحب الرتبة والتجريد الكامل للعضو: ${targetName}؟`)) {
+                    firebase.database().ref("users/" + targetUid).update({ 
+                        role: "user", frame: "", color: "", textColor: "", expireDate: null 
+                    }).then(() => {
+                        if (targetUid === myCurrentUid) {
+                            localStorage.setItem("role", "user");
+                            localStorage.setItem("userColor", "");
+                            localStorage.setItem("userFrame", "");
+                        }
+                        alert("✅ تم التجريد الكامل بنجاح.");
+                        updateLiveDOM(null, "user", "", ""); // إزالة الألوان والإطارات من الرسائل القديمة فوراً حياً
+                        if(document.getElementById("adminPanelContent")) document.getElementById("adminPanelContent").style.display = "none";
+                    });
+                }
+            }
+        });
+    });
+}
+
+// 7. دوال الملف الشخصي والعدادات
+function toggleProfile(){ 
+    let p = document.getElementById("profileBox");
+    p.style.display = (p.style.display === "flex") ? "none" : "flex"; 
+}
+function closeProfile(){ if(document.getElementById("profileBox")) document.getElementById("profileBox").style.display="none"; }
+function showRooms(){ if(roomsBox) roomsBox.style.display="flex"; }
+
+function watch(roomID, countID){ 
+    firebase.database().ref("rooms/"+roomID+"/users").on("value",snap=>{ 
+        let el = document.getElementById(countID);
+        if(el) el.innerText = snap.numChildren(); 
+    }); 
+}
+
+// --- نظام الهدايا المتكامل المعدل ---
+const giftsList = [
+    { id: "gift_img1", url: "https://b.top4top.io/p_3771pzbko0.gif" },
+    { id: "gift_img2", url: "https://www.image2url.com/r2/default/images/1777548827794-259b1f83-5aa6-4869-b28c-2c1b2b9eb166.gif" },
+    { id: "gift_img3", url: "https://www.image2url.com/r2/default/images/1777549000119-01c195e6-7080-4777-8d07-d9a59160cc0e.gif" },
+    { id: "gift_img4", url: "https://www.image2url.com/r2/default/images/1777549107979-34ecc2d4-9aae-45ba-a306-ab88a4e3df93.gif" },
+    { id: "gift_img5", url: "https://www.image2url.com/r2/default/images/1777549178212-791e5504-5c88-4bef-b9d5-fa7bfe88077c.gif" },
+    { id: "gift_img6", url: "https://www.image2url.com/r2/default/images/1777549256733-74408079-cac5-48bb-8c6c-eb3da35adeb1.gif" },
+    { id: "gift_img7", url: "https://www.image2url.com/r2/default/images/1777549359142-7d0f32ee-6954-4af1-97e3-cd4c6baafba6.gif" },
+    { id: "gift_img8", url: "https://www.image2url.com/r2/default/images/1777549460648-0298f139-ccc4-4a55-9933-7cf818447838.gif" },
+    { id: "gift_img9", url: "https://www.image2url.com/r2/default/images/1777549532263-aefd9677-1fbd-491b-97ac-c74b5255defe.gif" },
+    { id: "gift_img10", url: "https://www.image2url.com/r2/default/images/1777549597520-ebd76fce-f55d-46ed-a2c0-2d057c0f24f7.gif" },
+    { id: "gift_img11", url: "https://www.image2url.com/r2/default/images/1777549972228-3a289c1d-b5da-4eb7-9d87-2244b5cc8e96.gif" },
+    { id: "gift_img12", url: "https://www.image2url.com/r2/default/images/1777550060145-cb7c4733-0544-47c0-8561-d54f1680e83c.gif" },
+    { id: "gift_img13", url: "https://www.image2url.com/r2/default/images/1777550153004-800dc0fd-b046-4dd1-8ce6-108704d03339.gif" },
+    { id: "gift_img14", url: "https://www.image2url.com/r2/default/images/1777550254478-20be05fb-3df6-4f4d-9533-33f566ed87ad.gif" },
+    { id: "gift_img15", url: "https://www.image2url.com/r2/default/images/1777552030153-c646dea6-25e2-4387-854d-a973c4c9eb38.gif" },
+    { id: "gift_img16", url: "https://www.image2url.com/r2/default/images/1777552085650-8a9a0e68-b679-485b-b995-b6f0a00469fa.gif" },
+    { id: "gift_img17", url: "https://www.image2url.com/r2/default/images/1777552141266-76d509d2-4044-49d6-9220-d1fea4e86c22.gif" }
+];
+
+let selectedGiftObj = null; 
+
+// دالة فتح النظام مع فحص الرتبة
+function openGiftsSystem() {
+    const modal = document.getElementById("giftsModal");
+    const adminSec = document.getElementById("adminGiftSection");
+    const userSec = document.getElementById("userGiftSection");
+    const title = document.getElementById("giftModalTitle");
+
+    firebase.database().ref("users/" + uid).once("value", snap => {
+        let userData = snap.val() || {};
+        modal.style.display = "flex";
+
+        if (userData.role === "admin" || userData.role === "vip") {
+            title.innerText = "👑 لوحة إرسال الهدايا الملكية";
+            adminSec.style.display = "block";
+            userSec.style.display = "none";
+            renderAdminGifts(); 
+        } else {
+            title.innerText = "🎁 هداياي المستلمة";
+            adminSec.style.display = "none";
+            userSec.style.display = "block";
+            loadUserGifts(); 
+        }
+    });
+}
+
+function closeGiftsModal() {
+    document.getElementById("giftsModal").style.display = "none";
+}
+
+// دالة عرض الهدايا في شبكة (Grid) للأدمن
+function renderAdminGifts() {
+    const grid = document.getElementById("giftsGrid");
+    grid.innerHTML = "";
+    
+    giftsList.forEach(gift => {
+        let img = document.createElement("img");
+        img.src = gift.url;
+        img.style.cssText = "width:100%; height:65px; border-radius:8px; cursor:pointer; border:2px solid #333; object-fit:contain; background:#1a1a1a; padding:2px;";
+        
+        img.onclick = function() {
+            document.querySelectorAll("#giftsGrid img").forEach(i => i.style.borderColor = "#333");
+            this.style.borderColor = "gold";
+            selectedGiftObj = gift; 
+        };
+        grid.appendChild(img);
+    });
+}
+
+// دالة الإرسال الفعلية مع الإعلان في وسط الشات
+async function sendGiftProcess() {
+    let targetName = document.getElementById("targetUserName").value.trim();
+    if (!targetName || !selectedGiftObj) return alert("❌ يرجى كتابة الاسم واختيار هدية");
+
+    firebase.database().ref("users").orderByChild("username").equalTo(targetName).once("value", async (snap) => {
+        if (!snap.exists()) return alert("❌ هذا المستخدم غير موجود!");
+
+        let targetUid = Object.keys(snap.val())[0];
+        
+        // جلب بياناتك (المرسل)
+        let myDataSnap = await firebase.database().ref("users/" + uid).once("value");
+        let myData = myDataSnap.val();
+
+        // 1. الإرسال إلى مجلد الرسائل مع إضافة توقت السيرفر ( serverTime )
+        firebase.database().ref("messages/" + room).push({
+            type: "gift_announcement",
+            senderName: myData.username,
+            receiverName: targetName,
+            giftUrl: selectedGiftObj.url,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            serverTime: Date.now() // 👈 هذا هو السطر الأهم لمنع التكرار لاحقاً
+        });
+
+        // 2. تسجيل الهدية في خزانة المستلم (الحفاظ على الهدايا دائمياً)
+        firebase.database().ref("users/" + targetUid + "/receivedGifts/" + selectedGiftObj.id).transaction((current) => {
+            if (current) {
+                current.count = (current.count || 0) + 1;
+                return current;
+            }
+            return { url: selectedGiftObj.url, count: 1 };
+        });
+
+        // 3. إنهاء العملية
+        alert("✅ تم إرسال الهدية بنجاح!");
+        closeGiftsModal();
+    });
+}
+
+// دالة عرض هدايا المستخدم (خزانة الهدايا)
+function loadUserGifts() {
+    const userGrid = document.getElementById("userGiftsGrid");
+    if(!userGrid) return;
+    userGrid.innerHTML = "جاري التحميل...";
+
+    firebase.database().ref("users/" + uid + "/receivedGifts").on("value", snap => {
+        userGrid.innerHTML = "";
+        if (!snap.exists()) {
+            userGrid.innerHTML = "<p style='color:#666; text-align:center;'>لا يوجد هدايا مستلمة بعد</p>";
+            return;
+        }
+        snap.forEach(child => {
+            let gift = child.val();
+            let div = document.createElement("div");
+            div.style.cssText = "position:relative; background:#1a1a1a; padding:5px; border-radius:8px; border:1px solid #333;";
+            div.innerHTML = `
+                <img src="${gift.url}" style="width:100%; height:50px; object-fit:contain;">
+                <span style="position:absolute; top:-5px; right:-5px; background:gold; color:#000; font-size:10px; padding:2px 6px; border-radius:10px; font-weight:bold;">${gift.count}</span>
+            `;
+            userGrid.appendChild(div);
+        });
+    });
+}
+
+
+// تشغيل العدادات
+["global","iraq","saudi","kuwait","morocco","egypt","gulf","fun","friends","games","mods","admin"]
+.forEach(r => { if(document.getElementById(r+"Count")) watch(r, r+"Count"); });
+
+// إرسال بالانتر
+msgInput.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); send(); } });
+
+// دالة الغرف الخاصة
+function enterPrivateRoom(roomName, password) {
+    let pass = prompt("🔒 هذه الغرفة خاصة، أدخل رمز الدخول:");
+    if (pass === password) { enterRoom(roomName); } 
+    else if (pass !== null) { alert("❌ الرمز خاطئ!"); }
+}
+
+function openColorPicker() {
+    const picker = document.getElementById('colorPickerOverlay');
+    const grid = document.getElementById('colorGrid');
+    if (picker && grid) {
+        picker.style.display = 'flex';
+        grid.innerHTML = ""; // تنظيف القائمة
+        for (let i = 1; i <= 20; i++) {
+            let circle = document.createElement('div');
+            circle.className = `c${i}`; // تستخدم التنسيق الموجود بملف الـ CSS
+            circle.style.width = '35px';
+            circle.style.height = '35px';
+            circle.style.borderRadius = '50%';
+            circle.style.cursor = 'pointer';
+            circle.style.border = '2px solid #444';
+            circle.onclick = function() {
+                selectedC = `c${i}`; // تخزين اللون المختار
+                document.querySelectorAll('#colorGrid div').forEach(d => d.style.borderColor = '#444');
+                this.style.borderColor = '#fff'; // تمييز الاختيار
+            };
+            grid.appendChild(circle);
+        }
+    }
+}
+
+function closePicker() {
+    if (document.getElementById('colorPickerOverlay')) {
+        document.getElementById('colorPickerOverlay').style.display = 'none';
+    }
+}
+
+function saveColorToFirebase() {
+    if (!selectedC) return alert("الرجاء اختيار لون أولاً");
+    const user = firebase.auth().currentUser;
+    if (user) {
+        firebase.database().ref("users/" + user.uid).update({
+            color: selectedC
+        }).then(() => {
+            alert("تم حفظ لون الاسم بنجاح! 🎉");
+            closePicker();
+        }).catch(err => alert("حدث خطأ أثناء الحفظ"));
+    }
+}
+
+
+// 1. دالة تعديل وحفظ السيرة الشخصية
+function editBio() {
+    // جلب النص الحالي المعروض تحت اسمك
+    let currentBio = document.getElementById("pBioText").innerText;
+    
+    // إظهار نافذة إدخال النص
+    let newBio = prompt("✍️ اكتب سيرتك الذاتية الجديدة:", currentBio);
+    
+    // إذا ضغط المستخدم "موافق" ولم يترك الحقل فارغاً
+    if (newBio !== null) {
+        firebase.database().ref("users/" + uid).update({
+            bio: newBio.trim()
+        }).then(() => {
+            alert("✅ تم حفظ السيرة بنجاح");
+        });
+    }
+}
+
+// 2. كود العرض (يجب أن يكون داخل دالة الـ onValue الخاصة بالمستخدم)
+firebase.database().ref("users/" + uid).on("value", snap => {
+    let user = snap.val();
+    if (user && document.getElementById("pBioText")) {
+        // عرض السيرة المحفوظة في حقل النص تحت الاسم
+        document.getElementById("pBioText").innerText = user.bio || "لا توجد سيرة ذاتية";
+    }
+});
+function editBirth() {
+    // جلب النص الحالي المعروض
+    let currentBirth = document.getElementById("pBirthText").innerText;
+    
+    // إظهار نافذة إدخال التاريخ
+    let newBirth = prompt("📅 أدخل تاريخ ميلادك أو عمرك:", currentBirth);
+    
+    if (newBirth !== null) {
+        let val = newBirth.trim();
+        // حفظ في قاعدة البيانات
+        firebase.database().ref("users/" + uid).update({
+            age: val || "--/--/----"
+        }).then(() => {
+            // تحديث الشاشة فوراً
+            if(document.getElementById("pBirthText")) {
+                document.getElementById("pBirthText").innerText = val || "--/--/----";
+            }
+            alert("✅ تم حفظ التاريخ بنجاح");
+        });
+    }
+}
+function uploadToStorage(input) {
+    // التأكد من أن المستخدم اختار ملفاً
+    if (input.files && input.files[0]) {
+        let file = input.files[0];
+        
+        // جلب المستخدم الحالي بشكل آمن
+        let user = firebase.auth().currentUser;
+        
+        if (!user) {
+            alert("❌ خطأ: لم يتم التعرف على حسابك، يرجى إعادة تسجيل الدخول.");
+            return;
+        }
+
+        let uid = user.uid;
+        // إنشاء مرجع في مخزن الصور باسم الـ UID الخاص بالمستخدم
+        let storageRef = firebase.storage().ref("profile_images/" + uid);
+
+        alert("⏳ بدأت عملية الرفع للسيرفر... انتظر لحظة");
+
+        // 1. رفع الملف إلى Storage
+        storageRef.put(file).then(snapshot => {
+            alert("✅ تم رفع الملف بنجاح! جاري تحديث بياناتك...");
+            return snapshot.ref.getDownloadURL(); // الحصول على رابط الصورة العام
+        }).then(downloadURL => {
+            // 2. تحديث رابط الصورة في Realtime Database
+            return firebase.database().ref("users/" + uid).update({
+                image: downloadURL
+            }).then(() => {
+                // 3. تحديث الصورة في الواجهة (الـ ID الذي وجدناه pAvatar)
+                let avatar = document.getElementById("pAvatar");
+                if (avatar) {
+                    avatar.src = downloadURL;
+                }
+                alert("🎉 مبروك! تم تغيير الصورة بنجاح.");
+            });
+        }).catch(error => {
+            console.error("خطأ الرفع:", error);
+            alert("❌ فشل الرفع! السبب: " + error.message);
+        });
+    }
+}
+// المتغير والدوال الجديدة
+let selectedFrameUrl = ""; 
+
+function openMainFramesMenu() {
+    const box = document.getElementById("framesBox");
+    if (box.style.display === "none" || box.style.display === "") {
+        box.style.display = "flex";
+        backToFramesMenu();
+    } else {
+        box.style.display = "none";
+    }
+}
+
+function showAdminFrames() {
+    document.getElementById("mainFramesMenu").style.display = "none";
+    document.getElementById("adminFramesSection").style.display = "flex";
+}
+
+function backToFramesMenu() {
+    document.getElementById("mainFramesMenu").style.display = "block";
+    document.getElementById("adminFramesSection").style.display = "none";
+    document.getElementById("saveFrameBtn").style.display = "none";
+}
+
+function previewFrame(url) {
+    if(!url || url.trim() === "") return alert("الرابط غير صحيح");
+    const pFrame = document.getElementById("pFrame");
+    if (pFrame) pFrame.src = url;
+    selectedFrameUrl = url; 
+    document.getElementById("saveFrameBtn").style.display = "block"; 
+}
+
+function saveFrameToDB() {
+    const user = firebase.auth().currentUser;
+    if (user && selectedFrameUrl !== "") {
+        firebase.database().ref("users/" + user.uid).update({
+            frame: selectedFrameUrl
+        }).then(() => {
+            alert("تم الحفظ بنجاح! ✅");
+            document.getElementById("saveFrameBtn").style.display = "none";
+        }).catch((error) => {
+            alert("خطأ في الحفظ: " + error.message);
+        });
+    } else {
+        alert("يرجى تسجيل الدخول أولاً!");
+    }
+}
+
+function uploadFrameFile(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const user = firebase.auth().currentUser;
+        if(!user) return alert("سجل دخولك أولاً");
+
+        const storageRef = firebase.storage().ref("frames/" + user.uid + "_" + Date.now());
+        alert("جاري الرفع...");
+        
+        storageRef.put(file).then((snapshot) => {
+            return snapshot.ref.getDownloadURL();
+        }).then((url) => {
+            previewFrame(url); 
+            alert("تم الرفع! اضغط حفظ نهائياً.");
+        }).catch((error) => {
+            alert("فشل الرفع: " + error.message);
+        });
+    }
+}
+// 1. دالة فتح القائمة ورسم الدوائر بناءً على الـ CSS الخاص بك
+function openColorPicker() {
+    const picker = document.getElementById('colorPickerOverlay');
+    const grid = document.getElementById('colorGrid');
+    
+    if (picker && grid) {
+        picker.style.display = 'flex';
+        grid.innerHTML = ""; // تنظيف القائمة قبل الرسم
+        
+        for (let i = 1; i <= 20; i++) {
+            let circle = document.createElement('div');
+            // إضافة الكلاس من c1 إلى c20
+            circle.className = `c${i}`; 
+            
+            // إضافة تنسيق الدائرة (لأن الـ CSS يجعله شفافاً للنصوص، سنعطيه خلفية هنا)
+            circle.style.width = '35px';
+            circle.style.height = '35px';
+            circle.style.borderRadius = '50%';
+            circle.style.cursor = 'pointer';
+            circle.style.border = '2px solid #444';
+            circle.style.display = 'inline-block';
+            circle.style.margin = '5px';
+            
+            // هذه الأسطر تجعل الـ Gradient يظهر داخل الدائرة رغم وجود clip: text في الـ CSS
+            circle.style.webkitBackgroundClip = 'initial'; 
+            circle.style.webkitTextFillColor = 'initial';
+
+            circle.onclick = function() {
+                selectedC = `c${i}`; // حفظ الكود المختار
+                document.querySelectorAll('#colorGrid div').forEach(d => d.style.borderColor = '#444');
+                this.style.borderColor = '#fff'; // تمييز الدائرة المختارة
+            };
+            grid.appendChild(circle);
+        }
+    }
+}
+
+// 2. دالة حفظ اللون في الفايربيس وتطبيقه فوراً
+function saveColorToFirebase() {
+    if (!selectedC) return alert("الرجاء اختيار لون أولاً!");
+    
+    const user = firebase.auth().currentUser;
+    if (user) {
+        firebase.database().ref("users/" + user.uid).update({
+            color: selectedC
+        }).then(() => {
+            alert("تم تغيير لون اسمك بنجاح! 🎉");
+            
+            // تطبيق اللون على الاسم في البروفايل فوراً
+            const pName = document.getElementById("pName");
+            if (pName) {
+                // إزالة أي كلاس قديم (c1, c2..) وإضافة الجديد
+                pName.className = ""; 
+                pName.classList.add(selectedC);
+            }
+            closePicker();
+        }).catch(err => {
+            console.error("خطأ أثناء الحفظ:", err);
+        });
+    }
+}
+
+// 3. دالة إغلاق النافذة
+function closePicker() {
+    document.getElementById('colorPickerOverlay').style.display = 'none';
+}
+let selectedGifClass = ""; // متغير لحفظ اللون الخرافي المختار مؤقتاً
+
+function openGifPicker() {
+    const picker = document.getElementById('gifPickerOverlay');
+    const grid = document.getElementById('gifGrid');
+    if (picker && grid) {
+        picker.style.display = 'flex';
+        grid.innerHTML = ""; 
+        
+        // رسم ال50 الخرافية
+        for (let i = 1; i <= 50; i++) {
+            let circle = document.createElement('div');
+            circle.className = `g${i}`; // استدعاء الكلاس من الـ CSS الجديد
+            circle.style.width = '55px';
+            circle.style.height = '55px';
+            circle.style.borderRadius = '12px';
+            circle.style.cursor = 'pointer';
+            circle.style.border = '2px solid #333';
+            
+            // إظهار اللون داخل الدائرة للمعاينة
+            circle.style.webkitBackgroundClip = 'initial';
+            circle.style.webkitTextFillColor = 'initial';
+
+            circle.onclick = function() {
+                selectedGifClass = `g${i}`;
+                document.querySelectorAll('#gifGrid div').forEach(d => d.style.borderColor = '#333');
+                this.style.borderColor = '#ff00ff'; // تمييز المختار
+            };
+            grid.appendChild(circle);
+        }
+    }
+}
+
+function saveGifColor() {
+    if (!selectedGifClass) return alert("الرجاء اختيار لون خرافي أولاً!");
+    const user = firebase.auth().currentUser;
+    if (user) {
+        // نقوم بتحديث نفس خانة 'color' في الفايربيس لكي يطبق فوراً
+        firebase.database().ref("users/" + user.uid).update({
+            color: selectedGifClass
+        }).then(() => {
+            alert("تم تفعيل التأثير الخرافي! ✨");
+            // تحديث الاسم في البروفايل فوراً
+            const pName = document.getElementById("pName");
+            if (pName) {
+                pName.className = ""; 
+                pName.classList.add(selectedGifClass);
+            }
+            closeGifPicker();
+        }).catch(err => alert("حدث خطأ في الحفظ"));
+    }
+}
+
+function closeGifPicker() {
+    document.getElementById('gifPickerOverlay').style.display = 'none';
+}
+
+// 1. تعريف عنصر القائمة
+const colorSelect = document.getElementById('userTextColor');
+
+// 2. كود حفظ اللون عند التغيير
+colorSelect.addEventListener('change', function() {
+    const selectedColor = this.value;
+    localStorage.setItem('myTextColor', selectedColor);
+    console.log("تم حفظ اللون: " + selectedColor);
+});
+
+// 3. كود استرجاع اللون عند فتح الصفحة (طريقة آمنة)
+window.addEventListener('load', function() {
+    const savedColor = localStorage.getItem('myTextColor');
+    if (savedColor) {
+        colorSelect.value = savedColor;
+    }
+});
+// 1. دالة سحرية لضغط الصورة وتصغير أبعادها تلقائياً
+function processAndCompressImage(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = function() {
+                // إعدادات الأبعاد المطلوبة
+                const targetWidth = 800;
+                const targetHeight = 300;
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = targetWidth;
+                canvas.height = targetHeight;
+                const ctx = canvas.getContext('2d');
+
+                // رسم الصورة على الكانفاس بالأبعاد الجديدة (تغطية كاملة cover)
+                const ratio = Math.max(targetWidth / img.width, targetHeight / img.height);
+                const newWidth = img.width * ratio;
+                const newHeight = img.height * ratio;
+                const offX = (targetWidth - newWidth) / 2;
+                const offY = (targetHeight - newHeight) / 2;
+
+                ctx.drawImage(img, offX, offY, newWidth, newHeight);
+
+                // تحويل النتيجة لـ كود نصي مضغوط (بجودة 0.7 من 1)
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                document.getElementById('memberBannerInput').value = compressedBase64;
+            };
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// 2. دالة الحفظ النهائية مع فحص الرتبة ومنع الـ GIF للعضو
+function saveMemberBanner() {
+    const user = auth.currentUser;
+    const bannerData = document.getElementById('memberBannerInput').value.trim();
+
+    if (!user) return alert("الرجاء تسجيل الدخول!");
+    if (!bannerData) return alert("اختر صورة أولاً!");
+
+    // جلب البيانات للتأكد من الرتبة من حقل role
+    db.ref('users/' + user.uid).once('value').then((snapshot) => {
+        const userData = snapshot.val();
+        
+        // تعديل: قراءة الرتبة من حقل role كما هو في قاعدة بياناتك
+        const userRole = userData.role || 'member'; 
+
+        // مستشعر محسن للـ GIF (يفحص الرابط أو تشفير الملف)
+        const isGif = bannerData.toLowerCase().includes('.gif') || bannerData.startsWith('data:image/gif');
+        
+        // التحقق من الصلاحية (أنت الآن admin وسيتعرف عليك الكود)
+        const isVip = ['admin', 'mod', 'vip'].includes(userRole.toLowerCase());
+
+        if (isGif && !isVip) {
+            alert("⚠️ عذراً، الغلاف المتحرك مسموح فقط للرتب العليا!");
+            return;
+        }
+
+        // الحفظ في قاعدة البيانات
+        db.ref('users/' + user.uid).update({
+            profileBanner: bannerData
+        }).then(() => {
+            alert("✅ تم حفظ الغلاف بنجاح!");
+            
+            // تحسين القياسات فوراً بعد الحفظ
+            const bannerElement = document.getElementById('pBanner');
+            if(bannerElement) {
+                bannerElement.style.backgroundSize = "100% 100%";
+                bannerElement.style.backgroundRepeat = "no-repeat";
+            }
+        }).catch((err) => {
+            alert("❌ خطأ: " + err.message);
+        });
+    });
+}
+    // روابط صور ميزة TOP    // 1. قاعدة بيانات الصور
+    const topImages = {
+        1: "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/307E09719-ezgif.com-speed.gif?alt=media&token=3b57ae35-f8b1-452b-b87d-c5b1db57d74e",
+        2: "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/297F54223-ezgif.com-gif-maker.gif?alt=media&token=3fc5d1e0-4c7c-4db2-9fc8-5e332a941090",
+        3: "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1411125902746.gif?alt=media&token=433f9906-2c73-4020-8c29-bafac204200f",
+        4: "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/33A599FAA-ezgif.com-gif-maker.gif?alt=media&token=eadf7425-f85e-41f8-a334-da90221530b9",
+        5: "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/31C4D1B16-ezgif.com-gif-maker.gif?alt=media&token=e2991071-aa22-4964-ab12-0252487668fc",
+        6: "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/mooody(GIF)_2.gif?alt=media&token=2ea6a62e-5583-4a2b-a751-bcfcd29c9ab8",
+        7: "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/327977725-ezgif.com-gif-maker.gif?alt=media&token=322834e6-4e2b-4dab-8d37-c8f6db54016f"
+    };
+
+    // 2. دالة بناء القائمة (تضيف المربعات وحقل الرابط)
+    const topTitles = ["الجوائز", "الإبداع والتميز", "الترحيب", "القوانين", "التحذير", "الإدارة", "المناسبات"];
+    const wrap = document.getElementById('fieldsWrapper');
+    if (wrap) {
+        wrap.innerHTML = ""; // تنظيف أي كود قديم
+        topTitles.forEach((t, i) => {
+            const id = i + 1;
+            wrap.innerHTML += `
+                <div class="field-box" style="margin-bottom:12px; border-right:4px solid #ff1493; padding:10px; background:rgba(255,20,147,0.05); border-radius:8px; direction:rtl;">
+                    <h4 style="color:#ff1493; font-size:13px; margin:0 0 8px 0;">${t}</h4>
+                    <textarea id="in${id}" style="width:100%; height:45px; background:#111; color:#fff; border:1px solid #444; border-radius:5px; padding:5px; font-size:12px; resize:none;" placeholder="اكتب النص هنا..."></textarea>
+                    <input type="text" id="link${id}" style="width:100%; margin-top:5px; background:#000; color:#00fbff; border:1px solid #333; font-size:11px; border-radius:4px; padding:4px;" placeholder="رابط خارجي (اختياري) http://...">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                        <label style="font-size:11px; color:#ccc; cursor:pointer;"><input type="checkbox" id="chk${id}" style="accent-color:#ff1493;"> تحديد للنشر الجماعي</label>
+                        <button onclick="fire(${id})" style="background:#ff1493; color:#fff; border:none; border-radius:5px; padding:5px 15px; cursor:pointer; font-weight:bold; font-size:11px;">نشر الآن</button>
+                    </div>
+                </div>`;
+        });
+    }
+
+    // 3. دالة فتح وإغلاق اللوحة
+    function togglePanel() {
+        const panel = document.getElementById('adminPanel');
+        if (panel) panel.style.display = (panel.style.display === 'flex') ? 'none' : 'flex';
+    }
+    // 4. دالة النشر الأساسية (ترسل للقاعدة ليراها الجميع)
+    function fire(id, closePanel = true) {
+        const textVal = document.getElementById('in' + id).value;
+        const linkVal = document.getElementById('link' + id).value;
+        
+        if (!textVal.trim()) return; 
+
+        // الربط مع Firebase لإرسال الإعلان للكل
+        // ملاحظة: تأكد أن اسم متغير الغرفة في كودك هو room
+        if (typeof room !== 'undefined' && room) {
+            firebase.database().ref("messages/" + room).push({
+                name: "إعلان إداري",
+                text: textVal,
+                link: linkVal || "", 
+                topImage: topImages[id], 
+                type: "top_ad", // هذا الوسم هو الذي سيحرك الفلتر في دالة load
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+
+        if (closePanel) togglePanel();
+        
+        // تنظيف الحقول بعد النشر
+        document.getElementById('in' + id).value = "";
+        document.getElementById('link' + id).value = "";
+        const chk = document.getElementById('chk' + id);
+        if(chk) chk.checked = false;
+    }
+
+
+    // 5. دالة "نشر المحددة" (للمربعات)
+    function publishSelected() {
+        let anyChecked = false;
+        for (let i = 1; i <= 7; i++) {
+            const chk = document.getElementById('chk' + i);
+            if (chk && chk.checked) {
+                fire(i, false); // نشر بدون إغلاق اللوحة فوراً
+                anyChecked = true;
+            }
+        }
+        if (anyChecked) togglePanel(); // أغلق اللوحة بعد نشر الكل
+    }
+
+function showTopAd(text, link, imgUrl) {
+    const uidAd = 'top_' + Math.random().toString(16).slice(2, 8);
+    // نستخدم body كحاضن لضمان الظهور فوق كل شيء
+    const overlay = document.body;
+
+    let content = link ? `<a href="${link}" target="_blank" style="color:white; text-decoration:none; cursor:pointer;"><b>${text}</b></a>` : `<b>${text}</b>`;
+
+    const adDiv = document.createElement("div");
+    adDiv.id = uidAd;
+    adDiv.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        z-index: 2000000; display: flex; flex-direction: column; align-items: center;
+        animation: zoomIn 0.5s ease-out; pointer-events: auto; direction: rtl;
+    `;
+
+    adDiv.innerHTML = `
+        <img src="${imgUrl}" style="width:130px; height:130px; z-index:10; filter:drop-shadow(0 0 10px #ff1493);">
+        <div style="background:rgba(0,0,0,0.95); border:2px solid #ff1493; color:white; padding:45px 25px 25px; border-radius:25px; text-align:center; min-width:280px; margin-top:-45px; box-shadow: 0 0 30px rgba(255, 20, 147, 0.6);">
+            <div style="font-size:16px; line-height:1.6;">${content}</div>
+            <div style="margin-top:15px; font-size:10px; color:#fff; border:1px solid #ff1493; display:inline-block; padding:2px 12px; border-radius:20px; background:rgba(255,20,147,0.2);">سـ❣ـہيد آلَعـ❣ـہوآطـ❣ـہفـ❣ـہ | مدير الشات</div>
+        </div>
+    `;
+
+    overlay.appendChild(adDiv);
+
+    // يختفي الإعلان بعد 12 ثانية من شاشة الجميع
+    setTimeout(() => {
+        adDiv.style.transition = "opacity 1s";
+        adDiv.style.opacity = "0";
+        setTimeout(() => adDiv.remove(), 1000);
+    }, 12000);
+}let currentTab = 'normal'; 
+let selectedPosts = []; 
+// الصورة الافتراضية من تطبيقك
+const APP_DEFAULT_IMG = "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media&token=156bb233-e78a-41c9-9b26-83781d761487";
+
+// 1. فتح الساحة وتجهيز البيانات الشخصية
+async function openPostsArea() {
+    document.getElementById("postsOverlay").style.display = "block";
+    firebase.database().ref("users/" + uid).once("value").then(snap => {
+        let userData = snap.val() || {};
+        // عرض صورتك الحية في صندوق النشر باستخدام (image) وليس (avatar)
+        document.getElementById("myUserImg").src = userData.image || APP_DEFAULT_IMG;
+        let isPowerUser = ["admin", "mod", "vip"].includes(userData.role);
+        document.getElementById("urgentOption").style.display = isPowerUser ? "flex" : "none";
+        switchTab('normal'); 
+    });
+}
+
+// 2. التنقل بين الأقسام
+function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('tab-normal').style.color = tab === 'normal' ? 'gold' : '#666';
+    document.getElementById('tab-normal').style.borderBottom = tab === 'normal' ? '2px solid gold' : 'none';
+    document.getElementById('tab-urgent').style.color = tab === 'urgent' ? 'gold' : '#666';
+    document.getElementById('tab-urgent').style.borderBottom = tab === 'urgent' ? '2px solid gold' : 'none';
+    
+    firebase.database().ref("users/" + uid).once("value").then(snap => {
+        let role = snap.val()?.role || "user";
+        let isPowerUser = ["admin", "mod", "vip"].includes(role);
+        document.getElementById("postBox").style.display = (tab === 'urgent' && !isPowerUser) ? "none" : "block";
+    });
+    loadPosts();
+}
+
+// 3. دالة النشر المطورة (تخزن الـ UID فقط لضمان تحديث البيانات تلقائياً)
+async function saveNewPost() {
+    let text = document.getElementById("postInput").value.trim();
+    let file = document.getElementById("fileUpload").files[0];
+    let isUrgent = document.getElementById("isUrgent").checked;
+    
+    if (!text && !file) return alert("اكتب شيئاً أو اختر صورة!");
+    let btn = document.getElementById("publishBtn");
+    btn.disabled = true;
+    btn.innerText = "...";
+
+    let imgUrl = "";
+    if (file) {
+        let storageRef = firebase.storage().ref("posts/" + Date.now());
+        await storageRef.put(file);
+        imgUrl = await storageRef.getDownloadURL();
+    }
+
+    let newPost = {
+        uid: uid,
+        text: text,
+        image: imgUrl,
+        type: isUrgent ? "urgent" : "normal",
+        time: Date.now(),
+        likes: 0
+    };
+
+    firebase.database().ref("posts").push(newPost).then(() => {
+        document.getElementById("postInput").value = "";
+        document.getElementById("fileUpload").value = "";
+        document.getElementById("postPreviewContainer").style.display = "none";
+        document.getElementById("isUrgent").checked = false;
+        btn.disabled = false;
+        btn.innerText = "نشر";
+    });
+}
+
+// 4. عرض المنشورات (النسخة المنسجمة مع نظام تطبيقك)
+function loadPosts() {
+    firebase.database().ref("posts").orderByChild("time").on("value", snap => {
+        let area = document.getElementById("allPostsArea");
+        if (!area) return;
+        area.innerHTML = "";
+        let posts = [];
+        selectedPosts = []; 
+
+        snap.forEach(child => {
+            let data = child.val();
+            if (data.type === currentTab) posts.unshift({ id: child.key, ...data });
+        });
+
+        firebase.database().ref("users/" + uid).once("value").then(uSnap => {
+            let myData = uSnap.val() || {};
+            let isStaff = ["admin", "mod"].includes(myData.role);
+            if(document.getElementById("adminTools")) document.getElementById("adminTools").style.display = isStaff ? "flex" : "none";
+
+            posts.forEach(post => {
+                firebase.database().ref("users/" + post.uid).once("value").then(authorSnap => {
+                    let user = authorSnap.val() || {};
+                    let userRole = user.role || "user";
+                    
+                    firebase.database().ref("roles/" + userRole).once("value").then(roleSnap => {
+                        let roleData = roleSnap.val() || {};
+                        let roleIcon = roleData.image || ""; 
+                        let roleTitle = roleData.name || userRole;
+
+                        let userImg = user.image || APP_DEFAULT_IMG;
+                        let userFrame = user.frame || "";
+                        let userName = user.username || "عضو";
+
+                        let borderStyle = post.type === "urgent" ? "border: 1px solid #ff4444;" : "border: 1px solid #333;";
+                        let selectBox = isStaff ? `<input type="checkbox" class="post-select-checkbox" data-id="${post.id}" onchange="toggleSelectPost('${post.id}', this.checked)" style="width:18px; height:18px; cursor:pointer; accent-color:gold;">` : "";
+                        let editBtn = (post.uid === uid) ? `<span onclick="editMyPost('${post.id}', '${post.text}')" style="color:gold; font-size:11px; cursor:pointer; margin-left:10px; border:1px solid #444; padding:2px 6px; border-radius:5px;">تعديل</span>` : "";
+
+                        area.innerHTML += `
+                            <div class="post-card" style="background:#222; padding:15px; border-radius:15px; margin-bottom:15px; ${borderStyle} position:relative;">
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                    <div style="display:flex; align-items:center; gap:12px;">
+                                        <div style="position:relative; width:55px; height:55px; flex-shrink:0;">
+                                            <img src="${userImg}" onerror="this.src='${APP_DEFAULT_IMG}'" style="width:45px; height:45px; border-radius:50%; position:absolute; top:5px; left:5px; z-index:1; object-fit:cover;">
+                                            ${userFrame ? `<img src="${userFrame}" style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:2; pointer-events:none;">` : ""}
+                                        </div>
+                                        <div>
+                                            <div style="display:flex; align-items:center; gap:6px;">
+                                                <span style="color:gold; font-weight:bold; font-size:14px;">${userName}</span>
+                                                ${roleIcon ? `<img src="${roleIcon}" style="height:17px; object-fit:contain;">` : ""}
+                                            </div>
+                                            <div style="color:#777; font-size:11px; margin-top:2px;">
+                                                <span style="color:rgba(255,215,0,0.7)">${roleTitle}</span> | ${new Date(post.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex; align-items:center; gap:10px;">${editBtn} ${selectBox}</div>
+                                </div>
+                                <div style="color:#eee; font-size:15px; margin:15px 0; white-space:pre-wrap; line-height:1.6;">${post.text}</div>
+                                ${post.image ? `<img src="${post.image}" style="width:100%; border-radius:10px; border:1px solid #333; margin-top:5px; max-height:400px; object-fit:cover;">` : ""}
+                                <div style="margin-top:15px; border-top:1px solid #333; padding-top:12px; display:flex; gap:30px;">
+                                     <div onclick="likePost('${post.id}')" style="cursor:pointer; color:#aaa; font-size:14px; display:flex; align-items:center; gap:6px;">
+                                        <span style="font-size:18px;">❤️</span> <span id="likes-${post.id}">${post.likes || 0}</span>
+                                     </div>
+                                  <div onclick="openComments('${post.id}')" style="cursor:pointer; color:#aaa; font-size:14px; display:flex; align-items:center; gap:6px;">
+    <span style="font-size:18px;">💬</span> 
+    <span id="comm-count-${post.id}">الردود</span>
+</div>
+
+                                </div>
+                            </div>
+                        `;
+firebase.database().ref("comments/" + post.id).on("value", cSnap => {
+    let count = cSnap.numChildren();
+    let countElem = document.getElementById(`comm-count-${post.id}`);
+    if (countElem) {
+        countElem.innerText = count > 0 ? count : "الردود";
+    }
+});
+                        
+                    });
+                });
+            });
+        });
+    });
+}
+
+// 5. وظائف الإدارة والتفاعل
+function likePost(postId) {
+    let likeRef = firebase.database().ref("posts/" + postId + "/likes");
+    likeRef.transaction(c => { return (c || 0) + 1; });
+}
+let currentPostId = ""; // لتخزين ID المنشور المفتوح حالياً
+
+// 1. دالة فتح النافذة وجلب الردود
+function openComments(postId) {
+    currentPostId = postId;
+    document.getElementById("commentsOverlay").style.display = "block";
+    let commentsArea = document.getElementById("allCommentsArea");
+    commentsArea.innerHTML = "<div style='color:#666; text-align:center; padding:20px;'>جاري تحميل الردود...</div>";
+
+    firebase.database().ref("comments/" + postId).on("value", snap => {
+        commentsArea.innerHTML = "";
+        snap.forEach(child => {
+            let comment = child.val();
+            firebase.database().ref("users/" + comment.uid).once("value").then(userSnap => {
+                let user = userSnap.val() || {};
+                let userRole = user.role || "user";
+                firebase.database().ref("roles/" + userRole).once("value").then(roleSnap => {
+                    let roleData = roleSnap.val() || {};
+                    let roleIcon = roleData.image || "";
+                    let cUserImg = user.image || APP_DEFAULT_IMG;
+                    let cUserFrame = user.frame || "";
+                    let cUserName = user.username || "عضو";
+
+                    commentsArea.innerHTML += `
+                        <div style="display:flex; gap:12px; margin-bottom:15px; background:#222; padding:12px; border-radius:12px; border:1px solid #333; align-items:flex-start;">
+                            <div style="position:relative; width:45px; height:45px; flex-shrink:0;">
+                                <img src="${cUserImg}" onerror="this.src='${APP_DEFAULT_IMG}'" style="width:37px; height:37px; border-radius:50%; position:absolute; top:4px; left:4px; z-index:1; object-fit:cover;">
+                                ${cUserFrame ? `<img src="${cUserFrame}" style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:2; pointer-events:none;">` : ""}
+                            </div>
+                            <div style="flex:1;">
+                                <div style="display:flex; align-items:center; gap:6px;">
+                                    <span style="color:gold; font-weight:bold; font-size:13px;">${cUserName}</span>
+                                    ${roleIcon ? `<img src="${roleIcon}" style="height:14px; object-fit:contain;">` : ""}
+                                </div>
+                                <div style="color:#ddd; font-size:13px; margin-top:5px; white-space:pre-wrap;">${comment.text}</div>
+                            </div>
+                        </div>`;
+                    commentsArea.scrollTop = commentsArea.scrollHeight;
+                });
+            });
+        });
+    });
+}
+
+// 2. دالة إرسال رد جديد
+function sendComment() {
+    let input = document.getElementById("commentInput");
+    let text = input.value.trim();
+    if (!text) return;
+    firebase.database().ref("comments/" + currentPostId).push({
+        uid: uid,
+        text: text,
+        time: Date.now()
+    }).then(() => { input.value = ""; });
+}
+
+// 3. دالة إغلاق النافذة
+function closeComments() {
+    if (currentPostId) firebase.database().ref("comments/" + currentPostId).off();
+    document.getElementById("commentsOverlay").style.display = "none";
+}
+
+function toggleSelectPost(id, checked) {
+    if (checked) { if(!selectedPosts.includes(id)) selectedPosts.push(id); }
+    else { selectedPosts = selectedPosts.filter(i => i !== id); }
+}
+
+function selectAllPosts(checked) {
+    const cbs = document.querySelectorAll('.post-select-checkbox');
+    selectedPosts = [];
+    cbs.forEach(cb => {
+        cb.checked = checked;
+        let id = cb.getAttribute('data-id');
+        if (checked) selectedPosts.push(id);
+    });
+}
+
+async function deleteSelectedPosts() {
+    if (selectedPosts.length === 0) return alert("حدد منشوراً!");
+    if (confirm(`حذف ${selectedPosts.length} منشور؟`)) {
+        for (let id of selectedPosts) await firebase.database().ref("posts/" + id).remove();
+        selectedPosts = [];
+    }
+}
+
+function editMyPost(id, old) {
+    let n = prompt("تعديل النص:", old);
+    if (n) firebase.database().ref("posts/" + id).update({ text: n });
+}
+
+function previewPostImage(input) {
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById("postImgPreview").src = e.target.result;
+            document.getElementById("postPreviewContainer").style.display = "block";
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function cancelImage() {
+    document.getElementById("fileUpload").value = "";
+    document.getElementById("postPreviewContainer").style.display = "none";
+}
+
+function closePosts() { document.getElementById("postsOverlay").style.display = "none"; }
+// =========================================================================
+// 🎙️🎙️ نظام المايكات المطور المدمج والمحمي (الحماية المطلقة + لوحة الطلبات + LiveKit + الرنة الحية) 🎙️🎙️
+// =========================================================================
+
+// 👑 الثوابت الإدارية العليا (صاحب التطبيق والمساعد المطلق)
+const OWNER_UID = "BZKPUUsV0ZMb9qfLmkSyMtVuSlS2";
+const OWNER_EMAIL = "anwar92web@gmail.com";
+
+const ASSISTANT_UID = "8yCZnLUVTeXI7oOQCoVWMSXCkun1";
+const ASSISTANT_EMAIL = "almoosea@gmail.com";
+
+// 📡 بيانات سيرفر LiveKit الأساسية والدائمة الخاصة بك
+const LIVEKIT_URL = "wss://chatgoal92-gn9t3rlf.livekit.cloud";
+const LIVEKIT_API_KEY = "APIm8MdyKUaeTGy";
+const LIVEKIT_API_SECRET = "NHGqyePb4JzRu6YmmNkRm69YT5nq0Kvfc0eMyz8LBxfD";
+
+// متغيرات التحكم الصوتي ومصفوفة الحالة السابقة للتنبيه الجماعي
+let previousMicsState = {};
+let currentRoomInstance = null; // يحمل كائن الغرفة النشطة لـ LiveKit
+
+// 🔥 الرابط المباشر لنغمة تنبيه صعود المايك الخاصة بك
+const MIC_ALERT_SOUND_URL = "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/%D8%AA%D9%86%D8%A8%D9%8A%D8%A9%20%D8%B5%D9%88%D8%AA%20%D8%B5%D8%B9%D9%88%D8%AF%20%D9%85%D8%A7%D9%8A%D9%83.mp3?alt=media&token=de6ceb6c-d660-4f49-9125-f0af7dabc1f9";
+
+// 1. دالة الاستماع الحية لعرض المايكات الخمسة بالصور والإطارات والرتب والتنبيه الجماعي
+function listenToRoomMics(currentRoomId) {
+    if (!currentRoomId) return;
+
+    firebase.database().ref(`voice_slots/${currentRoomId}`).on("value", (snapshot) => {
+        let roomMicsData = snapshot.val() || {};
+        let myUid = localStorage.getItem("uid") || (typeof uid !== "undefined" ? uid : "");
+
+        for (let i = 1; i <= 5; i++) {
+            let slotElem = document.getElementById(`slot-${i}`);
+            if (!slotElem) continue;
+
+            let slotData = roomMicsData[`slot_${i}`];
+
+            // تعيين حدث الضغط مباشرة على حاوية المايك بالكامل مع تمرير رقم المايك وبياناته
+            slotElem.onclick = () => openMicControl(i, slotData);
+            slotElem.style.cursor = "pointer";
+
+            // 🔥 [المحرك الذكي لتنبيه الصوت الجماعي عند صعود أي عضو] 🔥
+            if (slotData && slotData.status === "active" && (!previousMicsState[`slot_${i}`] || previousMicsState[`slot_${i}`] === "empty" || previousMicsState[`slot_${i}`] === "locked")) {
+                let micAlertSound = new Audio(MIC_ALERT_SOUND_URL);
+                micAlertSound.play().catch(e => {
+                    console.log("🔊 تشغيل نغمة الصعود يحتاج تفاعل ضغط مع الشاشة أولاً لتخطي حظر المتصفح:", e);
+                });
+            }
+
+            // 📡 [التحكم الفوري بمحرك الـ LiveKit لضمان البث والاستقبال الحقيقي للأصوات]
+            if (slotData && slotData.uid === myUid) {
+                if (slotData.status === "active") {
+                    startBroadcastingVoice(); // فتح المايك وبثه فوراً للشبكة لكي يسمعه الآخرون
+                } else if (slotData.status === "muted" || slotData.status === "empty" || slotData.status === "locked") {
+                    stopBroadcastingVoice(); // إغلاق وكتم البث فوراً عند النزول أو الكتم
+                }
+            }
+            
+            // في حال تم طردك أو نزل العضو وأصبح المايك فارغاً تماماً وهو حسابي
+            if (!slotData && previousMicsState[`slot_${i}_uid`] === myUid) {
+                stopBroadcastingVoice();
+            }
+
+            // حفظ الحالة الحالية وحفظ الـ UID للمقارنة الحية الدقيقة في التحديث القادم
+            previousMicsState[`slot_${i}`] = slotData ? slotData.status : "empty";
+            previousMicsState[`slot_${i}_uid`] = slotData ? slotData.uid : null;
+
+            // أ. إذا كان المايك فارغاً ومقفلًا من قبل الإدارة
+            if (slotData && slotData.status === "locked") {
+                slotElem.innerHTML = `
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: #2a1414; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 2px solid #ff4d4d; box-shadow: 0 0 10px rgba(255,77,77,0.2);">🔒</div>
+                    <div style="font-size: 11px; color: #ff4d4d; font-weight: bold;">مايك ${i}</div>
+                    <span style="color:#ff4d4d; font-size:9px; background:rgba(255,77,77,0.1); padding:1px 5px; border-radius:4px;">مغلق للإدارة</span>
+                `;
+                slotElem.style.background = "#1a0f0f";
+                slotElem.style.borderRadius = "12px";
+                slotElem.style.padding = "10px";
+                slotElem.style.textAlign = "center";
+            }
+            // ب. إذا كان المايك فارغاً ومفتوحاً
+            else if (!slotData || slotData.status === "empty") {
+                slotElem.innerHTML = `
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: #222; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 2px dashed #444;">🔈</div>
+                    <div style="font-size: 11px; color: #888; font-weight: bold;">مايك ${i}</div>
+                    <span style="color:#555; font-size:10px;">اضغط للصعود</span>
+                `;
+                slotElem.style.background = "#141414";
+                slotElem.style.borderRadius = "12px";
+                slotElem.style.padding = "10px";
+                slotElem.style.textAlign = "center";
+            } 
+            // ج. إذا كان هناك عضو يجلس على المايك
+            else {
+                let nameColor = "#fff"; 
+                let roleTitle = "👤 عضو";
+                let userImage = slotData.image || "https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media"; 
+                let frameHTML = ""; 
+
+                if (slotData.uid === OWNER_UID) { nameColor = "#ff1144"; roleTitle = "👑 المطور"; }
+                else if (slotData.uid === ASSISTANT_UID) { nameColor = "#ff5722"; roleTitle = "🛡️ المساعد العام"; }
+                else if (slotData.role === "admin") { nameColor = "#ff4d4d"; roleTitle = "👑 مدير"; }
+                else if (slotData.role === "mod") { nameColor = "#00bcd4"; roleTitle = "🛡️ مساعد"; }
+                else if (slotData.role === "vip") { nameColor = "#ffb300"; roleTitle = "⭐ VIP"; }
+
+                if (slotData.frame && slotData.frame !== "null" && slotData.frame !== "") {
+                    frameHTML = `<img src="${slotData.frame}" style="position: absolute; top: -6px; left: -6px; width: 72px; height: 72px; z-index: 10; pointer-events: none;">`;
+                }
+
+                let micIcon = slotData.status === "muted" ? "🔇" : "🎙️";
+
+                slotElem.innerHTML = `
+                    <div style="position: relative; width: 60px; height: 60px; margin: 0 auto 5px;">
+                        ${frameHTML}
+                        <img src="${userImage}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; position: relative; z-index: 5; border: 2px solid ${nameColor};">
+                        <span style="position: absolute; bottom: -2px; right: -2px; background: #222; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid #fff; z-index: 12;">${micIcon}</span>
+                    </div>
+                    <div style="font-size: 11px; color: ${nameColor}; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;">${slotData.username || "عضو"}</div>
+                    <div style="font-size: 9px; color: #fff; background: ${nameColor}33; border: 1px solid ${nameColor}aa; border-radius: 4px; display: inline-block; padding: 1px 6px; margin-top: 2px;">${roleTitle}</div>
+                `;
+                
+                slotElem.style.background = slotData.status === "muted" ? "#2d1616" : "#0d282e";
+                slotElem.style.borderRadius = "12px";
+                slotElem.style.padding = "10px";
+                slotElem.style.textAlign = "center";
+            }
+        }
+    });
+}
+
+// 2. دالة فتح قائمة التحكم الجمالية وحساب صلاحيات الرتب بالملي مع الـ UID المحمي
+function openMicControl(slotNumber, slotData) {
+    let myRole = localStorage.getItem("role") || "user";
+    let myUid = localStorage.getItem("uid") || (typeof uid !== "undefined" ? uid : "");
+    let myEmail = localStorage.getItem("email") || "";
+
+    // التحقق من الحماية المطلقة للشخص الحالي (أنت أو المساعد)
+    let isAbsoluteAdmin = (myUid === OWNER_UID || myEmail === OWNER_EMAIL || myUid === ASSISTANT_UID || myEmail === ASSISTANT_EMAIL);
+    let isRegularAdminOrVip = (myRole === "admin" || myRole === "vip" || myRole === "mod");
+
+    let menuOverlay = document.getElementById("micControlMenuOverlay");
+    if (!menuOverlay) {
+        menuOverlay = document.createElement("div");
+        menuOverlay.id = "micControlMenuOverlay";
+        menuOverlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:100000; display:flex; align-items:center; justify-content:center; direction:rtl;";
+        document.body.appendChild(menuOverlay);
+    }
+    menuOverlay.style.display = "flex";
+
+    let slotTitle = slotData && slotData.username ? `المايك ${slotNumber}: ${slotData.username}` : `خيارات المايك ${slotNumber}`;
+    let buttonsHTML = "";
+
+    // أ. خيارات المايك الفارغ (المفتوح أو المقفل)
+    if (!slotData || slotData.status === "empty" || slotData.status === "locked") {
+        if (!slotData || slotData.status === "empty") {
+            buttonsHTML += `<button onclick="actionMic(${slotNumber}, 'take')" style="background:#4caf50; color:#fff; padding:12px; border:none; border-radius:10px; font-weight:bold; font-size:14px; margin-bottom:10px; cursor:pointer; width:100%;">🎙️ صعود مباشر إلى المايك</button>`;
+        }
+        
+        // صلاحية قفل المايك (ممنوعة على الادمن العادي والـ vip، فقط لك ولمساعدك بالـ UID)
+        if (isAbsoluteAdmin) {
+            if (slotData && slotData.status === "locked") {
+                buttonsHTML += `<button onclick="actionMic(${slotNumber}, 'unlock')" style="background:#00bcd4; color:#fff; padding:12px; border:none; border-radius:10px; font-weight:bold; font-size:14px; margin-bottom:10px; cursor:pointer; width:100%;">🔓 فتح المايك للجميع</button>`;
+            } else {
+                buttonsHTML += `<button onclick="actionMic(${slotNumber}, 'lock')" style="background:#e91e63; color:#fff; padding:12px; border:none; border-radius:10px; font-weight:bold; font-size:14px; margin-bottom:10px; cursor:pointer; width:100%;">🔒 قفل المايك بالكامل</button>`;
+            }
+        }
+    } 
+    // ب. خيارات المايك المحجوز (إذا كان عليه عضو)
+    else {
+        let isMe = slotData.uid === myUid;
+
+        if (isMe) {
+            buttonsHTML += `<button onclick="actionMic(${slotNumber}, 'leave')" style="background:#ff5722; color:#fff; padding:12px; border:none; border-radius:10px; font-weight:bold; font-size:14px; margin-bottom:10px; cursor:pointer; width:100%;">🚪 مغادرة المايك</button>`;
+        } else {
+            let canAction = false;
+            let targetIsAbsolute = (slotData.uid === OWNER_UID || slotData.uid === ASSISTANT_UID);
+
+            // إذا كان الضاغط هو الحساب الأعلى (أنت أو المساعد)، يمكنه التحكم بأي رتبة أخرى
+            if (isAbsoluteAdmin) {
+                canAction = true;
+            }
+            // إذا كان ادمن أو vip عادي، يحق له فقط طرد الأعضاء العاديين وليس أصحاب الـ UID المحمي
+            else if (isRegularAdminOrVip && !targetIsAbsolute) {
+                canAction = true;
+            }
+
+            if (canAction) {
+                if (slotData.status === "muted") {
+                    buttonsHTML += `<button onclick="actionMic(${slotNumber}, 'unmute')" style="background:#009688; color:#fff; padding:12px; border:none; border-radius:10px; font-weight:bold; font-size:14px; margin-bottom:10px; cursor:pointer; width:100%;">🔊 إلغاء كتم الصوت</button>`;
+                } else {
+                    buttonsHTML += `<button onclick="actionMic(${slotNumber}, 'mute')" style="background:#ffb300; color:#fff; padding:12px; border:none; border-radius:10px; font-weight:bold; font-size:14px; margin-bottom:10px; cursor:pointer; width:100%;">🔇 كتم صوت العضو</button>`;
+                }
+                buttonsHTML += `<button onclick="actionMic(${slotNumber}, 'kick')" style="background:#d32f2f; color:#fff; padding:12px; border:none; border-radius:10px; font-weight:bold; font-size:14px; margin-bottom:10px; cursor:pointer; width:100%;">❌ طرد العضو من المايك</button>`;
+            }
+        }
+    }
+
+    // زر إضافي للـ Admin و VIP وصاحب التطبيق لفتح قائمة طلبات الصعود المخصصة
+    if (isAbsoluteAdmin || isRegularAdminOrVip) {
+        buttonsHTML += `<button onclick="openMicRequestsQueue(${slotNumber})" style="background:gold; color:#111; padding:12px; border:none; border-radius:10px; font-weight:bold; font-size:14px; margin-bottom:10px; cursor:pointer; width:100%;">📋 لوحة طلبات الصعود (UP)</button>`;
+    }
+
+    menuOverlay.innerHTML = `
+        <div style="background:#181818; width:85%; max-width:340px; border-radius:20px; padding:20px; border:2px solid gold; box-shadow:0 10px 25px rgba(0,0,0,0.5); text-align:center; animation: popUpMic 0.3s ease;">
+            <div style="color:gold; font-size:16px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:10px;">${slotTitle}</div>
+            <div style="display:flex; flex-direction:column;">
+                ${buttonsHTML || '<span style="color:#777; font-size:13px; margin-bottom:15px;">لا توجد إجراءات متاحة لرتبتك الحالية</span>'}
+            </div>
+            <button onclick="document.getElementById('micControlMenuOverlay').style.display='none'" style="background:#333; color:#ccc; padding:10px; border:none; border-radius:10px; font-weight:bold; font-size:13px; margin-top:5px; cursor:pointer; width:100%;">إغلاق النافذة</button>
+        </div>
+    `;
+}
+
+// 3. المحرك المالي والبرمي لتنفيذ حركات المايك وتحديث الفايربيس
+function actionMic(slotNum, type) {
+    if (typeof room === "undefined" || !room) return;
+    let slotRef = firebase.database().ref(`voice_slots/${room}/slot_${slotNum}`);
+    
+    let myUid = localStorage.getItem("uid") || (typeof uid !== "undefined" ? uid : "");
+    let myName = localStorage.getItem("name") || "عضو";
+    let myImg = localStorage.getItem("userImg") || "";
+    let myRole = localStorage.getItem("role") || "user";
+    let myFrame = localStorage.getItem("userFrame") || "";
+
+    if (type === 'take') {
+        firebase.database().ref(`voice_slots/${room}`).once("value", (snap) => {
+            let data = snap.val() || {};
+            let alreadyOnMic = false;
+            for (let k in data) {
+                if (data[k].uid === myUid && data[k].status !== "empty" && data[k].status !== "locked") { alreadyOnMic = true; break; }
+            }
+            if (alreadyOnMic) {
+                alert("⚠️ أنت تصعد على مايك آخر بالفعل! انزل أولاً.");
+                return;
+            }
+            slotRef.set({
+                uid: myUid,
+                username: myName,
+                image: myImg,
+                role: myRole,
+                frame: myFrame,
+                status: "active"
+            }).then(() => {
+                startBroadcastingVoice(); // ⚡ تفعيل وبث المايك فوراً برمجياً عند الصعود الناجح
+            });
+        });
+    }
+    else if (type === 'leave' || type === 'kick') {
+        slotRef.set({ status: "empty" }).then(() => {
+            stopBroadcastingVoice(); // ⚡ قطع الصوت فوراً عند المغادرة أو الطرد
+        });
+    }
+    else if (type === 'mute') {
+        slotRef.update({ status: "muted" });
+    }
+    else if (type === 'unmute') {
+        slotRef.update({ status: "active" });
+    }
+    else if (type === 'lock') {
+        slotRef.set({ status: "locked" });
+    }
+    else if (type === 'unlock') {
+        slotRef.set({ status: "empty" });
+    }
+
+    let overlay = document.getElementById("micControlMenuOverlay");
+    if (overlay) overlay.style.display = "none";
+}
+
+// 4. نظام الطابور المطور (قائمة طلبات صعود المايك UP) الجمالية والمحكومة بالكامل
+function requestToGoUp() {
+    if (typeof room === "undefined" || !room) return;
+    let myUid = localStorage.getItem("uid") || (typeof uid !== "undefined" ? uid : "");
+    let myName = localStorage.getItem("name") || "عضو";
+    let myImg = localStorage.getItem("userImg") || "";
+    let myRole = localStorage.getItem("role") || "user";
+    let myFrame = localStorage.getItem("userFrame") || "";
+
+    // رفع طلب الانتظار إلى المسار الجديد
+    let requestRef = firebase.database().ref(`mic_requests/${room}/${myUid}`);
+    requestRef.set({
+        uid: myUid,
+        username: myName,
+        image: myImg,
+        role: myRole,
+        frame: myFrame,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    }).then(() => {
+        alert("⬆️ تم إرسال طلبك للإدارة بنجاح، انتظر الموافقة في طابور المايك!");
+    });
+}
+
+// فتح شاشة عرض طلبات الأعضاء المنتظرين حياً مع أزرار الموافقة والرفض
+function openMicRequestsQueue(targetSlotNum) {
+    if (typeof room === "undefined" || !room) return;
+
+    let queueOverlay = document.getElementById("micQueueMenuOverlay");
+    if (!queueOverlay) {
+        queueOverlay = document.createElement("div");
+        queueOverlay.id = "micQueueMenuOverlay";
+        queueOverlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:100005; display:flex; align-items:center; justify-content:center; direction:rtl;";
+        document.body.appendChild(queueOverlay);
+    }
+    queueOverlay.style.display = "flex";
+
+    // الاستماع الحي لقائمة الانتظار داخل الغرفة الحالية فقط
+    firebase.database().ref(`mic_requests/${room}`).on("value", (snapshot) => {
+        let requestsData = snapshot.val() || {};
+        let listHTML = "";
+
+        for (let userKey in requestsData) {
+            let uData = requestsData[userKey];
+            let uColor = "#fff";
+            if (uData.uid === OWNER_UID) uColor = "#ff1144";
+            else if (uData.role === "admin") uColor = "#ff4d4d";
+            else if (uData.role === "mod") uColor = "#00bcd4";
+            else if (uData.role === "vip") uColor = "#ffb300";
+
+            let userFrameHTML = uData.frame ? `<img src="${uData.frame}" style="position:absolute; top:-4px; left:-4px; width:48px; height:48px; z-index:10; pointer-events:none;">` : "";
+
+            listHTML += `
+                <div style="display:flex; align-items:center; justify-content:between; background:#222; padding:10px; border-radius:12px; margin-bottom:8px; border:1px solid #333;">
+                    <div style="display:flex; align-items:center; gap:10px; flex:1;">
+                        <div style="position:relative; width:40px; height:40px;">
+                            ${userFrameHTML}
+                            <img src="${uData.image || 'https://firebasestorage.googleapis.com/v0/b/anwar-chat.firebasestorage.app/o/1776381102070.jpg?alt=media'}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:1.5px solid ${uColor};">
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:12px; color:${uColor}; font-weight:bold; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${uData.username}</div>
+                            <div style="font-size:9px; color:#aaa;">طلب صعود المايك</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <button onclick="acceptMicRequest(${targetSlotNum}, '${uData.uid}')" style="background:#4caf50; color:#fff; border:none; padding:6px 10px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer;">✔️ موافقة</button>
+                        <button onclick="rejectMicRequest('${uData.uid}')" style="background:#f44336; color:#fff; border:none; padding:6px 10px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer;">❌ رفض</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        queueOverlay.innerHTML = `
+            <div style="background:#141414; width:90%; max-width:350px; border-radius:20px; padding:20px; border:2px solid gold; box-shadow:0 10px 30px rgba(0,0,0,0.7); text-align:center;">
+                <div style="color:gold; font-size:15px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:8px;">📋 طابور طلبات المايك ${targetSlotNum}</div>
+                <div style="max-height:260px; overflow-y:auto; padding-right:4px;">
+                    ${listHTML || '<div style="color:#666; font-size:12px; padding:30px 0;">لا توجد طلبات انتظار حالياً لهذه الغرفة</div>'}
+                </div>
+                <button onclick="closeMicRequestsQueue()" style="background:#222; color:#bbb; padding:10px; border:none; border-radius:10px; font-weight:bold; font-size:13px; margin-top:12px; cursor:pointer; width:100%;">إغلاق القائمة</button>
+            </div>
+        `;
+    });
+}
+
+// قبول العضو ووضعه في المايك وحذفه من قائمة الانتظار
+function acceptMicRequest(slotNum, targetUid) {
+    if (typeof room === "undefined" || !room) return;
+    
+    firebase.database().ref(`mic_requests/${room}/${targetUid}`).once("value", (snap) => {
+        let uData = snap.val();
+        if (!uData) return;
+
+        firebase.database().ref(`voice_slots/${room}/slot_${slotNum}`).set({
+            uid: uData.uid,
+            username: uData.username,
+            image: uData.image,
+            role: uData.role,
+            frame: uData.frame,
+            status: "active"
+        }).then(() => {
+            rejectMicRequest(targetUid); // حذفه من الطابور بعد الصعود الناجح
+            closeMicRequestsQueue();
+            let overlay = document.getElementById("micControlMenuOverlay");
+            if (overlay) overlay.style.display = "none";
+        });
+    });
+}
+
+// رفض العضو وحذفه من قائمة الانتظار مباشرة
+function rejectMicRequest(targetUid) {
+    if (typeof room === "undefined" || !room) return;
+    firebase.database().ref(`mic_requests/${room}/${targetUid}`).remove();
+}
+
+// إغلاق مستمع طابور المايك
+function closeMicRequestsQueue() {
+    if (typeof room === "undefined" || !room) return;
+    firebase.database().ref(`mic_requests/${room}`).off();
+    let queueOverlay = document.getElementById("micQueueMenuOverlay");
+    if (queueOverlay) queueOverlay.style.display = "none";
+}
+
+
+// =========================================================================
+// 📡 محرك الصوت الذكي المطور بالكامل لـ LiveKit (مخصص للصوت فقط Audio-Only)
+// =========================================================================
+
+// دالة داخلية لتوليد التوكن المشفر محلياً وآمن 100% بدون سيرفر خارجي (مخصصة للصوت فقط)
+function generateLiveKitToken(roomName, identity) {
+    const header = { alg: "HS256", typ: "JWT" };
+    const now = Math.floor(Date.now() / 1000);
+    
+    const payload = {
+        iss: LIVEKIT_API_KEY,
+        sub: identity,
+        exp: now + (60 * 60 * 24), // صالح لمدة 24 ساعة كاملة
+        nbf: now,
+        video: {
+            roomJoin: true,
+            room: roomName,
+            canPublish: true, 
+            canSubscribe: true,
+            canPublishData: false,
+            video: false, // تعطيل الفيديو والكاميرات نهائياً لسرعة الأداء
+            audio: true   // تفعيل محرك الصوت فقط
+        },
+        metadata: JSON.stringify({ username: localStorage.getItem("name") || "عضو" })
+    };
+
+    const base64UrlEncode = (obj) => {
+        const str = CryptoJS.enc.Utf8.parse(JSON.stringify(obj));
+        return CryptoJS.enc.Base64.stringify(str)
+            .replace(/=+$/, "")
+            .replace(/\+/g, "-")
+            .replace(/\//g, "_");
+    };
+
+    const encodedHeader = base64UrlEncode(header);
+    const encodedPayload = base64UrlEncode(payload);
+    
+    const signatureInput = `${encodedHeader}.${encodedPayload}`;
+    const signature = CryptoJS.HmacSHA256(signatureInput, LIVEKIT_API_SECRET);
+    const encodedSignature = CryptoJS.enc.Base64.stringify(signature)
+        .replace(/=+$/, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_");
+
+    return `${signatureInput}.${encodedSignature}`;
+}
+
+// دالة تهيئة الاتصال الصوتي لـ LiveKit فور دخول الغرفة
+async function initLiveKitVoice(roomName) {
+    if (typeof CryptoJS === "undefined") {
+        console.error("⚠️ مكتبة CryptoJS غير مدمجة في الصفحة لتوليد التوكن الآمن!");
+        return;
+    }
+    
+    try {
+        if (currentRoomInstance) { await leaveLiveKitVoice(); }
+
+        // إنشاء كائن الغرفة مع تنقية وحقن مخرجات الصوت
+        currentRoomInstance = new LiveKitClient.Room({
+            adaptiveStream: false, // مغلق لأنه خاص بالفيديو
+            dynacast: false,       // مغلق لأنه خاص بالفيديو
+            audioCaptureDefaults: {
+                autoGainControl: true,  // التحكم التلقائي بمستوى الصوت
+                echoCancellation: true, // إلغاء الصدى والصفير في الموبايل
+                noiseSuppression: true  // إزالة التشويش في الخلفية
+            }
+        });
+
+        // الاستماع لأصوات الأعضاء الآخرين الذين يصعدون للمايك وحقن الصوت إجبارياً في الصفحة
+        currentRoomInstance.on(LiveKitClient.RoomEvent.TrackSubscribed, (track, publication, participant) => {
+            if (track.kind === "audio") {
+                const audioElement = track.attach(); // ربط الصوت بالمتصفح
+                document.body.appendChild(audioElement); // إجبار مخرج الصوت على العمل لكسر حظر المتصفحات على Netlify
+                console.log("🔊 تم استلام وتشغيل تراك صوتي لعضو في غرفة LiveKit بنجاح.");
+            }
+        });
+
+        const myUid = localStorage.getItem("uid") || "user_" + Math.random().toString(36).substr(2, 9);
+        
+        // توليد التوكن الديناميكي
+        const secureToken = generateLiveKitToken(roomName, myUid);
+
+        // الاتصال المباشر والآمن بالسيرفر الجديد الخاص بك
+        await currentRoomInstance.connect(LIVEKIT_URL, secureToken);
+        console.log(`📡 تم الاتصال بنجاح بصوت سيرفر LiveKit للغرفة: ${roomName}`);
+
+    } catch (err) {
+        console.error("❌ خطأ في تشغيل محرك الصوت LiveKit الجديد:", err);
+    }
+}
+
+// تشغيل بث مايك جهازك للغرفة (إجبار بث الصوت النقي وإلغاء الصدى)
+async function startBroadcastingVoice() {
+    try {
+        if (!currentRoomInstance) {
+            console.log("⚠️ الغرفة غير متصلة بعد، جاري إعادة المحاولة خلال ثانية...");
+            setTimeout(startBroadcastingVoice, 1000);
+            return;
+        }
+        
+        // تفعيل بث المايكروفون الخاص بالمستخدم للغرفة مع التصفية الحية
+        await currentRoomInstance.localParticipant.setMicrophoneEnabled(true, {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+        });
+        
+        console.log("🎤 مايكك شغال الآن والجميع في الغرفة يسمعونك عبر LiveKit!");
+    } catch (err) {
+        console.error("❌ لم نتمكن من الوصول للميكروفون الخاص بك عبر LiveKit:", err);
+    }
+}
+
+// كتم وإلغاء بث المايك (عند النزول من المايك أو الكتم الإداري)
+async function stopBroadcastingVoice() {
+    try {
+        if (currentRoomInstance && currentRoomInstance.localParticipant) {
+            await currentRoomInstance.localParticipant.setMicrophoneEnabled(false);
+            console.log("🔇 تم إيقاف بث صوتك للغرفة بنجاح.");
+        }
+    } catch (err) {
+        console.error("خطأ أثناء إلغاء البث المباشر لـ LiveKit:", err);
+    }
+}
+
+// الخروج النهائي من قنوات الصوت عند الخروج أو التبديل وتنظيف المايك
+async function leaveLiveKitVoice() {
+    try {
+        if (currentRoomInstance) {
+            await currentRoomInstance.disconnect();
+            currentRoomInstance = null;
+            console.log("🚪 تم مغادرة القناة الصوتية لـ LiveKit للغرفة السابقة.");
+        }
+    } catch (err) {
+        console.error("خطأ أثناء الخروج من سيرفر LiveKit:", err);
+    }
+}
+
+// إضافة أنيميشن القائمة الجمالية المنبثقة
+const styleSheet = document.createElement("style");
+styleSheet.innerText = `@keyframes popUpMic { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }`;
+document.head.appendChild(styleSheet);
+
+</script>
+<div id="giftsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:99999; justify-content:center; align-items:center; direction:rtl;">
+    <div style="background:#111; width:95%; max-width:450px; border-radius:20px; padding:20px; position:relative; max-height:85vh; overflow-y:auto; border:2px solid gold;">
+        
+        <span onclick="closeGiftsModal()" style="position:absolute; top:10px; left:15px; cursor:pointer; font-size:24px; font-weight:bold; color:red;">&times;</span>
+        
+        <h3 id="giftModalTitle" style="text-align:center; color:gold; margin-bottom:15px; font-size:18px;">🎁 نظام الهدايا</h3>
+
+        <div id="adminGiftSection" style="display:none;">
+            <div style="margin-bottom:15px;">
+                <input type="text" id="targetUserName" placeholder="اكتب اسم المستخدم هنا..." style="width:100%; padding:12px; border:1px solid gold; border-radius:10px; background:#222; color:#fff; outline:none;">
+            </div>
+            
+            <p style="font-size:12px; color:#aaa; margin-bottom:10px; text-align:right;">اختر هدية للارسال:</p>
+            <div id="giftsGrid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; background:#222; padding:15px; border-radius:10px; border:1px solid #333; min-height:100px;">
+                </div>
+            
+            <button onclick="sendGiftProcess()" style="width:100%; margin-top:15px; padding:15px; background:linear-gradient(45deg, gold, #b38728); color:#000; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:16px;">إرسال الهدية الآن 🔥</button>
+        </div>
+
+        <div id="userGiftSection" style="display:none;">
+            <div id="userGiftsGrid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:15px; text-align:center;">
+                </div>
+        </div>
+    </div>
+</div>
+
+<div id="postsOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#1a1a1a; z-index:10000; overflow-y:auto; direction:rtl; font-family: sans-serif;">
+    
+    <div style="position: sticky; top: 0; background: #111; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; z-index: 10001;">
+        <button onclick="closePosts()" style="background: none; border: none; color: gold; font-size: 24px; cursor: pointer; margin-left: 15px;">🔙</button>
+        <h2 style="color:white; margin:0; font-size:18px; flex-grow: 1; text-align: center;">🌠 ساحة المنشورات</h2>
+        <div style="width: 40px;"></div> 
+    </div>
+
+    <div style="display: flex; background: #222; border-bottom: 1px solid #333; align-items: center; padding: 0 10px; position: sticky; top: 58px; z-index: 10001;">
+        <div id="tab-normal" onclick="switchTab('normal')" style="flex: 1; text-align: center; padding: 15px; color: gold; border-bottom: 2px solid gold; cursor: pointer; font-weight: bold; font-size: 14px;">👥 المنشورات</div>
+        <div id="tab-urgent" onclick="switchTab('urgent')" style="flex: 1; text-align: center; padding: 15px; color: #888; cursor: pointer; font-weight: bold; font-size: 14px;">🚨 عاجل</div>
+        
+        <div id="adminTools" style="display: none; align-items: center; gap: 12px; padding: 0 10px; border-right: 1px solid #444;">
+            <label style="color: #aaa; font-size: 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center;">
+                <input type="checkbox" id="selectAllBox" onchange="selectAllPosts(this.checked)" style="width:18px; height:18px;">
+                تحديد
+            </label>
+            <span onclick="deleteSelectedPosts()" style="cursor: pointer; font-size: 22px; color: #ff4444;">🗑️</span>
+        </div>
+    </div>
+
+    <div style="max-width:600px; margin:0 auto; padding:15px;">
+        
+        <div id="postBox" style="background:#222; border-radius:15px; padding:15px; margin-bottom:20px; border:1px solid #333;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <img id="myUserImg" src="img/user.png" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid gold; object-fit: cover;">
+                <span id="writingHint" style="color: #666; font-size: 14px;">بمَ تفكر؟</span>
+            </div>
+            
+            <textarea id="postInput" placeholder="اكتب شيئاً للجميع..." 
+                style="width:100%; height:90px; background:transparent; color:white; border:none; outline:none; resize:none; font-size:16px; padding:5px;"></textarea>
+            
+            <div id="postPreviewContainer" style="display:none; margin:10px 0; position: relative;">
+                <img id="postImgPreview" src="" style="width:100%; max-height:250px; object-fit:contain; border-radius:10px; border:1px solid #333;">
+                <button onclick="cancelImage()" style="position:absolute; top:5px; right:5px; background:rgba(0,0,0,0.7); color:white; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer;">✕</button>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; border-top:1px solid #333; padding-top:12px;">
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <label for="fileUpload" style="cursor:pointer; font-size:22px;">🖼️</label>
+                    <input type="file" id="fileUpload" accept="image/*" style="display:none;" onchange="previewPostImage(this)">
+                    
+                    <div id="urgentOption" style="display:none; align-items:center; gap:6px;">
+                        <input type="checkbox" id="isUrgent" style="cursor:pointer; width:18px; height:18px;">
+                        <label for="isUrgent" style="color:#ff4444; font-weight:bold; font-size:13px; cursor:pointer;">🚨 عاجل</label>
+                    </div>
+                </div>
+
+                <button id="publishBtn" onclick="saveNewPost()" style="background:gold; color:black; border:none; padding:8px 28px; border-radius:20px; font-weight:bold; cursor:pointer;">نشر</button>
+            </div>
+        </div>
+
+        <div id="allPostsArea">
+            <p style="color:#444; text-align:center; padding:20px;">جاري تحميل الساحة...</p>
+        </div> </div> </div> ```
+
+<!-- نافذة الردود المنبثقة -->
+<div id="commentsOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10001; font-family:sans-serif; direction:rtl;">
+    <div style="max-width:600px; margin:30px auto; background:#1a1a1a; border-radius:20px; border:1px solid #333; height:calc(100vh - 60px); display:flex; flex-direction:column; overflow:hidden;">
+        
+        <!-- رأس النافذة -->
+        <div style="padding:15px 20px; border-bottom:1px solid #333; display:flex; justify-content:space-between; align-items:center; background:#222;">
+            <div style="color:gold; font-weight:bold; font-size:16px; display:flex; align-items:center; gap:8px;">
+                <span>💬</span> ردود الأعضاء
+            </div>
+            <span onclick="closeComments()" style="color:#aaa; font-size:24px; cursor:pointer; font-weight:bold;">&times;</span>
+        </div>
+
+        <!-- منطقة عرض التعليقات (سكروول) -->
+        <div id="allCommentsArea" style="flex:1; padding:20px; overflow-y:auto; background:#151515;">
+            <!-- التعليقات ستظهر هنا برمجياً -->
+        </div>
+
+        <!-- صندوق كتابة الرد في الأسفل -->
+        <div style="padding:15px; border-top:1px solid #333; background:#222; display:flex; gap:10px; align-items:center;">
+            <input type="text" id="commentInput" placeholder="اكتب رداً محترماً..." style="flex:1; background:#111; border:1px solid #444; padding:12px; border-radius:25px; color:#fff; font-size:14px; outline:none;">
+            <button onclick="sendComment()" style="background:gold; color:#000; border:none; padding:10px 20px; border-radius:25px; font-weight:bold; cursor:pointer; font-size:14px;">رد</button>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
